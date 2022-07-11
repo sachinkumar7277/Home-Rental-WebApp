@@ -1,0 +1,4 @@
+<option value="">---Choose---</option>
+{% for i in dists %}
+<option value="{{ i.pk }}">{{ i.name }}</option>
+{% endfor %}

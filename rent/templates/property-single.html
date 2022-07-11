@@ -1,0 +1,378 @@
+{% extends 'base2.html' %}
+{% load static %}
+{% static "images" as baseURL %}
+
+{% block content %}
+<style type="text/css">
+  .map iframe {
+    width: 100%;
+    min-height: 400px;
+    border: 8px solid #FF5722;
+    padding: 10px;
+    display: inherit;
+}
+
+</style>
+
+{% for i in Detail %}
+  <main id="main">
+
+    <!-- ======= Intro Single ======= -->
+    <section class="intro-single">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-md-12 col-lg-8">
+            <div class="title-single-box">
+              <br><br>
+
+              <h1 class="title-single">{{i.Owner_Name}}</h1>
+              <span class="color-text-a">{{i.city}}</span>
+
+            </div>
+          </div>
+          <div class="col-md-12 col-lg-4">
+            <nav aria-label="breadcrumb" class="breadcrumb-box d-flex justify-content-lg-end">
+
+
+              <ol class="breadcrumb">
+                {% if i.user.id == user.profile.id %}
+                <li class="breadcrumb-item">
+                  <a href="/rent/UpdateThisRoom/{{i.id}}">Update This Post</a>
+                </li>
+                {% if i.Active %}
+                <li class="breadcrumb-item">
+                  <a href="" onclick="DeactivateRoom()">Deactivate This Post</a>
+                </li>
+
+                {% else %}
+                <li class="breadcrumb-item">
+                  <a href="" onclick="ActivateRoom()">Activate This Post</a>
+                </li>
+                {% endif %}
+                {% endif %}
+              </ol>
+            </nav>
+          </div>
+
+        </div>
+      </div>
+    </section><!-- End Intro Single-->
+
+    <!-- ======= Property Single ======= -->
+    <section class="property-single nav-arrow-b">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12">
+            <div id="property-single-carousel" class="owl-carousel owl-arrow gallery-property">
+
+              <div class="carousel-item-b">
+                <img src="{{i.Building_img1.url}}" alt="" class="img-fluid" style="width:1080px; height:450px">
+                <h2 class="text-center"> Building Image</h2>
+              </div>
+              <div class="carousel-item-b">
+                <img src="{{i.Room_img1.url}}" alt="" class="img-fluid" style="width:1080px; height:450px">
+                <h2 class="text-center"> Bed Room Image</h2>
+              </div>
+              <div class="carousel-item-b">
+                <img src="{{i.Room_img2.url}}" alt="" class="img-fluid" style="width:1080px; height:450px">
+                <h2 class="text-center"> Kitchen Image</h2>
+              </div>
+              <div class="carousel-item-b">
+                <img src="{{i.Room_img3.url}}" alt="" class="img-fluid" style="width:1080px; height:450px">
+                <h2 class="text-center"> Bath Room Image</h2>
+              </div>
+
+            </div>
+            <div class="row justify-content-between">
+              <div class="col-md-5 col-lg-4">
+                <div class="property-price d-flex justify-content-center foo">
+                  <div class="card-header-c d-flex">
+                    <div class="card-box-ico">
+                      <span class="ion-money">{{i.Price}} Rs</span>
+                    </div>
+                    <div class="card-title-c align-self-center">
+                      <h5 class="title-c"></h5>
+                    </div>
+                  </div>
+                </div>
+                <div class="property-summary">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="title-box-d section-t4">
+                        <h3 class="title-d">Quick Summary</h3>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="summary-list">
+                    <ul class="list">
+                      <li class="d-flex justify-content-between">
+                        <strong>Property ID:</strong>
+                        <span>{{i.id}}</span>
+                      </li>
+                      <li class="d-flex justify-content-between">
+                        <strong>Location:</strong>
+                        <span>{{i.city}}  {{i.location}}</span>
+                      </li>
+                      <li class="d-flex justify-content-between">
+                        <strong>House Type:</strong>
+                        <span>{{i.House_type}}</span>
+                      </li>
+                      <li class="d-flex justify-content-between">
+                        <strong>Status:</strong>
+                        <span>Rent</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-7 col-lg-7 section-md-t3">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="title-box-d">
+                      <h3 class="title-d">Property Description</h3>
+                    </div>
+                  </div>
+                </div>
+                <div class="property-description">
+                  <p class="description color-text-a">
+                    {{i.House_description}}
+                  </p>
+                </div>
+                <div class="row section-t3">
+                  <div class="col-sm-12">
+                    <div class="title-box-d">
+<!--                      <h3 class="title-d">Amenities</h3>-->
+                    </div>
+                  </div>
+                </div>
+                <div class="amenities-list color-text-a">
+                  <ul class="list-a no-margin">
+                    <li>Balcony</li>
+                    <li>Outdoor Kitchen</li>
+                    <li>Cable Tv</li>
+                    <li>Deck</li>
+                    <li>Tennis Courts</li>
+                    <li>Internet</li>
+                    <li>Parking</li>
+                    <li>Sun Room</li>
+                    <li>Concrete Flooring</li>
+                    {% if i.user.id == user.profile.id %}
+
+                    {% endif %}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-10 offset-md-1">
+            <ul class="nav nav-pills-a nav-pills mb-3 section-t3" id="pills-tab" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" id="pills-video-tab" data-toggle="pill" href="#pills-video" role="tab" aria-controls="pills-video" aria-selected="true">Video</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="pills-plans-tab" data-toggle="pill" href="#pills-plans" role="tab" aria-controls="pills-plans" aria-selected="false">Floor Plans</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="pills-map-tab" data-toggle="pill" href="#pills-map" role="tab" aria-controls="pills-map" aria-selected="false">View on Map</a>
+              </li>
+            </ul>
+            <div class="tab-content" id="pills-tabContent">
+
+
+              <div class="tab-pane fade show active" id="pills-video" role="tabpanel" aria-labelledby="pills-video-tab">
+                <video class="img-fluid" width="100%" height="460" controls>
+				<source src="{{i.House_video.url}}" type='video/mp4' >
+				Your browser does not support the video tag.
+				</video>
+              </div>
+              <div class="tab-pane fade" id="pills-plans" role="tabpanel" aria-labelledby="pills-plans-tab">
+                <img src="{% static 'assets11/img/plan2.jpg' %}" alt="" class="img-fluid">
+              </div>
+              <div class="tab-pane fade" id="pills-map" role="tabpanel" aria-labelledby="pills-map-tab">
+                 <h2 style="color:blue"> Visit on Google Map ---> <a href="{{i.House_Location_link}}" class="fa fa-google">oogle Map View</a></h2>
+              </div>
+              <div class="map w3layouts">
+                 <iframe src="{{i.House_Location_map}}" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+              </div>
+<!--            </div>-->
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="row section-t3">
+              <div class="col-sm-12">
+                <div class="title-box-d">
+                  <h3 class="title-d">Contact Makan Malik</h3>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 col-lg-4">
+                <img src="{{i.Owner_pic.url}}" alt="" class="img-fluid">
+              </div>
+              <div class="col-md-6 col-lg-4">
+                <div class="property-agent">
+                  <h4 class="title-agent">{{i.Owner_Name}}</h4>
+                  <p class="color-text-a">
+                    Nulla porttitor accumsan tincidunt. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet
+                    dui. Quisque velit nisi,
+                    pretium ut lacinia in, elementum id enim.
+                  </p>
+                  <ul class="list-unstyled">
+                    <li class="d-flex justify-content-between">
+                      <strong>Phone:</strong>
+                      <span class="color-text-a">{{i.phone_no}}</span>
+                    </li>
+                    <li class="d-flex justify-content-between">
+                      <strong>Mobile:</strong>
+                      <span class="color-text-a">{{i.Alt_phone_no}}</span>
+                    </li>
+
+                  </ul>
+                  <div class="socials-a">
+                    <ul class="list-inline">
+                      <li class="list-inline-item">
+                        <a href="#">
+                          <i class="fa fa-facebook" aria-hidden="true"></i>
+                        </a>
+                      </li>
+                      <li class="list-inline-item">
+                        <a href="#">
+                          <i class="fa fa-twitter" aria-hidden="true"></i>
+                        </a>
+                      </li>
+                      <li class="list-inline-item">
+                        <a href="#">
+                          <i class="fa fa-instagram" aria-hidden="true"></i>
+                        </a>
+                      </li>
+                      <li class="list-inline-item">
+                        <a href="#">
+                          <i class="fa fa-pinterest-p" aria-hidden="true"></i>
+                        </a>
+                      </li>
+                      <li class="list-inline-item">
+                        <a href="#">
+                          <i class="fa fa-dribbble" aria-hidden="true"></i>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="col-md-12 col-lg-4">
+                <div class="property-contact">
+                  <form class="form-a">
+                    <div class="row">
+                      <div class="col-md-12 mb-1">
+                        <div class="form-group">
+                          <input type="text" class="form-control form-control-lg form-control-a" id="inputName" placeholder="Name *" required>
+                        </div>
+                      </div>
+                      <div class="col-md-12 mb-1">
+                        <div class="form-group">
+                          <input type="email" class="form-control form-control-lg form-control-a" id="inputEmail1" placeholder="Email *" required>
+                        </div>
+                      </div>
+                      <div class="col-md-12 mb-1">
+                        <div class="form-group">
+                          <textarea id="textMessage" class="form-control" placeholder="Comment *" name="message" cols="45" rows="8" required></textarea>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <button type="submit" class="btn btn-a">Send Message</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section><!-- End Property Single-->
+
+  </main><!-- End #main -->
+
+<script type="text/javascript">
+  function DeactivateRoom(){
+    var DataDeactivateRoom ={
+    'user_id':{{user.profile.id}},
+    'id':{{i.id}}
+
+    }
+
+    var url = "http://"+url_link+"/rent/DeactivateThisRoom/"
+    fetch(url, {
+        method:'POST',
+        headers:{
+            'Content-Type':'applicaiton/json',
+            'X-CSRFToken':csrftoken,
+        },
+        body:JSON.stringify(DataDeactivateRoom),
+
+    })
+    .then((response) => response.json())
+    .then((data) => {
+        if (data.status){
+           console.log(data)
+<!--            window.location.href = "/rent/home"-->
+           alert("Your Post Is Deactivated Now Yo Can Activate It from your profile ")
+
+        }
+        else{
+          alert("Failed to Deactivate try again")
+           window.location.href = "/rent/home"
+        }
+
+
+
+    })
+
+  }
+
+
+  function ActivateRoom(){
+    var DataActivateRoom ={
+    'user_id':{{user.profile.id}},
+    'id':{{i.id}}
+
+    }
+
+    var url = "http://"+url_link+"/rent/ActivateThisRoom/"
+    fetch(url, {
+        method:'POST',
+        headers:{
+            'Content-Type':'applicaiton/json',
+            'X-CSRFToken':csrftoken,
+        },
+        body:JSON.stringify(DataActivateRoom),
+
+    })
+    .then((response) => response.json())
+    .then((data) => {
+        if (data.status){
+           console.log(data)
+<!--            window.location.href = "/rent/home"-->
+           alert("Your Post Is Activated Now Yo Can Deactivate It from your profile ")
+
+        }
+        else{
+          alert("Failed to Activate try again")
+           window.location.href = "/rent/home"
+        }
+
+
+
+    })
+
+  }
+
+
+</script>
+ {% endfor %}
+{% endblock %}

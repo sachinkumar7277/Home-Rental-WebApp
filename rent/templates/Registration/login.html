@@ -1,0 +1,249 @@
+{% extends 'base2.html' %}
+{% load static %}
+{% static "images" as baseURL %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+  <head>
+    <title>Home Rental Services</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v6.0"></script>
+
+     <style>
+  /* Make the image fully responsive */
+  body {
+  background-color: lightblue;
+}
+
+  .carousel-inner img {
+    width: 100%;
+    height: -1%;
+  }
+  .card-item img {
+    width: 305px;
+    height: 300px;
+  }
+
+  .list-group img {
+    width: 305px;
+    height: 300px;
+  }
+
+
+   .gallery img {
+    width: 305px;
+    height: 300px;
+  }
+
+  .enroll-button {
+    width: 100%;
+    height: 100%;
+  }
+
+
+  .col-md-3 {
+    display: inline-block;
+    margin-left:-4px;
+  }
+
+  .carousel-indicators .active {
+    background-color: blue;
+  }
+
+  .col-md-3 img{
+
+    width: 255px;
+    height:250px;
+  }
+
+  body .carousel-indicator li{
+    background-color: blue;
+  }
+
+  body .carousel-indicators{
+    bottom: 0;
+  }
+
+  body .carousel-control-prev-icon,
+    body .carousel-control-next-icon{
+    background-color: blue;
+  }
+  body .no-padding{
+    padding-left: 0,
+    padding-right: 0;
+  }
+
+.img-fluid:hover {
+  opacity: 0.3;
+}
+
+ .media-body:hover text{
+  opacity: 1;
+}
+
+
+
+
+.fa {
+  padding: 20px;
+  font-size: 30px;
+  width: 50px;
+  text-align: center;
+  text-decoration: none;
+  margin: 5px 2px;
+}
+
+.fa:hover {
+    opacity: 0.7;
+}
+
+.fa-facebook {
+  background: #3B5998;
+  color: white;
+}
+
+.fa-twitter {
+  background: #55ACEE;
+  color: white;
+}
+
+.fa-google {
+  background: #dd4b39;
+  color: white;
+}
+
+.fa-linkedin {
+  background: #007bb5;
+  color: white;
+}
+
+.fa-youtube {
+  background: #bb0000;
+  color: white;
+}
+
+.fa-instagram {
+  background: #125688;
+  color: white;
+}
+
+.fa-pinterest {
+  background: #cb2027;
+  color: white;
+}
+
+.fa-snapchat-ghost {
+  background: #fffc00;
+  color: white;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.fa-skype {
+  background: #00aff0;
+  color: white;
+}
+
+.fa-android {
+  background: #a4c639;
+  color: white;
+}
+
+.fa-dribbble {
+  background: #ea4c89;
+  color: white;
+}
+
+.fa-vimeo {
+  background: #45bbff;
+  color: white;
+}
+
+.fa-tumblr {
+  background: #2c4762;
+  color: white;
+}
+
+.fa-vine {
+  background: #00b489;
+  color: white;
+}
+
+.fa-foursquare {
+  background: #45bbff;
+  color: white;
+}
+
+.fa-stumbleupon {
+  background: #eb4924;
+  color: white;
+}
+
+.fa-flickr {
+  background: #f40083;
+  color: white;
+}
+
+.fa-yahoo {
+  background: #430297;
+  color: white;
+}
+
+.fa-soundcloud {
+  background: #ff5500;
+  color: white;
+}
+
+.fa-reddit {
+  background: #ff5700;
+  color: white;
+}
+
+.fa-rss {
+  background: #ff6600;
+  color: white;
+  }
+
+
+  { margin:0; padding: 0; font-family: 'Courgette', cursive;
+  </style>
+
+  </head>
+<body>
+<header>
+
+    <br><br><br>
+
+<main class="p-5">
+    <div class="row text-justify">
+        <div class="col">
+            <h1>Login Page</h1>
+            <hr>
+        </div>
+
+    </div>
+
+<form enctype="multipart/form-data" method="post" >
+    {% csrf_token %}
+     {{form|crispy}}
+    <br>
+     <input class="btn btn-primary" type="submit"/>
+    <a class="btn btn-success" href="/accounts/register/">Register</a>
+    <a class="btn btn-danger" href="/accounts/password/reset">Reset password</a>
+</form>
+
+</main>
+
+</header>
+
+
+{% endblock %}

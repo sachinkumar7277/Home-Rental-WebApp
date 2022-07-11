@@ -1,0 +1,166 @@
+{% extends 'base2.html' %}
+
+
+{% block content %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<br><br><br><br>
+
+
+<div class="container" style = "margin-top:50px">
+    <h2 class="text-center">Register Your Mess Fill All Details Below</h2>
+
+    <br><br>
+    <form method="post" id="indexForm" data-courses-url="/rent/load-dists"  enctype="multipart/form-data">
+         {% csrf_token %}
+
+        <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="Ownername">Owner Name *</label>
+              <input type="text" name = "Ownername" class="form-control" id="Ownername" placeholder="Enter Mess Owner name"  required="">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="Messname">Mess Name *</label>
+              <input type="text" name = "Messname" class="form-control" id="Messname" placeholder="Enter Mess name"  required="">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="phone">Phone no *</label>
+              <input type="tel" class="form-control" id="phone" name="phone" pattern="[0-9]{10}" placeholder="Makan Malik phone no. ex. +918340312640" required="">
+            </div>
+        </div>
+          <div class="form-group">
+            <label for="inputAddress">Mess Address *</label>
+            <input type="text" class="form-control" id="inputAddress" name="MessAdress" placeholder="Enter Flat/Room Address" required="">
+            <small class="form-text text-muted">Please Provide address of your mess </small>
+          </div>
+          <div class="form-group">
+            <label for="Landmark">Landmark *</label>
+            <input type="text" class="form-control" id="Landmark" name="landmark" placeholder="Landmark"  required="">
+          </div>
+        <div class="form-row">
+
+           <div class="form-group col-md-3">
+              <label for="programming">State</label>
+              <select  name="programming" id="programming" class="form-control">
+                <option>..Choose...</option>
+                {% for i in state %}
+                <option value="{{i.id}}">{{i.name}}</option>
+                {% endfor %}
+              </select>
+           </div>
+
+            <div class="form-group col-md-3">
+              <label for="courses">District *</label>
+              <select name="courses" id="courses"  data-courses1-url="/rent/load-city" class="form-control">
+                <option>--District--</option>
+
+              </select>
+            </div>
+            <div class="form-group col-md-3">
+              <label for="city">City *</label>
+              <select name="city" id="city" class="form-control" required="required"  data-courses2-url="/rent/load-location">
+                  <option>--City--</option>
+
+              </select>
+            </div>
+            <div class="form-group col-md-3">
+              <label for="city">Village / Town *</label>
+              <select name="location" id="location" class="form-control" required="required">
+                  <option>--Location--</option>
+
+              </select>
+            </div>
+
+            <div class="form-group col-md-3">
+              <label for="inputZip">Pincode *</label>
+              <input type="text" name="pincode" class="form-control" id="inputZip"  required="">
+            </div>
+        </div>
+
+        <div class="form-row">
+
+           <div class="form-group col-md-3">
+               <label for="image_uploads">Mess images </label><br><br>
+               <input type="file" id="image_uploads" name="Mess_image" accept=".jpg, .jpeg, .png"  multiple>
+               <small id="emailHelp" class="form-text text-muted">Choose images to upload (PNG, JPG )</small>
+           </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Description">Mess Description *</label>
+            <textarea class="form-control" id="Description" rows="3"  name="MessDescription" placeholder="Tell about Facilities like 24X7 Water supply etc."></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">Add Google Map Location of Mess *</label>
+            <input type="url" class="form-control" id="exampleInputEmail1" name="Messlink" aria-describedby="emailHelp" placeholder="Enter Google Map Location Link of Room/ Flat">
+            <small id="emailHelp" class="form-text text-muted">Please Provide Pinpoint Location Link of Flat/ Room you want to give on rent  </small>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Add Google Map embed code of Mess Location *</label>
+            <input type="text" class="form-control" id="exampleInputEmail1" name="Messmap" aria-describedby="emailHelp" placeholder="Enter Google Map embed code of Location">
+            <small id="emailHelp" class="form-text text-muted">Please Provide Pinpoint Location embed code of Flat/ Room you want to give on rent  </small>
+        </div>
+        <br>
+        <input type = "submit" value="Submit" class="form-control btn btn-primary">
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script>
+    $("#programming").change(function () {
+      var url = $("#indexForm").attr("data-courses-url");  // get the url of the `load_courses` view
+      var programmingId = $(this).val();  // get the selected programming ID from the HTML input
+
+
+      $.ajax({                       // initialize an AJAX request
+        url: url,                    // set the url of the request (= localhost:8000/load-courses/)
+        data: {
+          'state': programmingId       // add the programming id to the GET parameters
+        },
+        success: function (data) {   // `data` is the return of the `load_courses` view function
+          $("#courses").html(data);  // replace the contents of the course input with the data that came from the server
+        }
+      });
+
+    });
+    $("#courses").change(function () {
+    var url = $("#courses").attr("data-courses1-url");  // get the url of the `load_courses` view
+    var stateId = $(this).val();  // get the selected programming ID from the HTML input
+
+    $.ajax({                       // initialize an AJAX request
+      url: url,                    // set the url of the request (= localhost:8000/load-courses/)
+      data: {
+        'dist': stateId       // add the programming id to the GET parameters
+      },
+      success: function (data) {   // `data` is the return of the `load_courses` view function
+<!--          document.write("success entered into district ")-->
+        $("#city").html(data);  // replace the contents of the course input with the data that came from the server
+      }
+    });
+
+    });
+
+    $("#city").change(function () {
+    var url = $("#city").attr("data-courses2-url");  // get the url of the `load_courses` view
+    var distId = $(this).val();  // get the selected programming ID from the HTML input
+
+    $.ajax({                       // initialize an AJAX request
+      url: url,                    // set the url of the request (= localhost:8000/load-courses/)
+      data: {
+        'city': distId       // add the programming id to the GET parameters
+      },
+      success: function (data) {   // `data` is the return of the `load_courses` view function
+<!--          document.write("success entered into district ")-->
+        $("#location").html(data);  // replace the contents of the course input with the data that came from the server
+      }
+    });
+
+    });
+
+
+
+  </script>
+
+
+{% endblock%}
+

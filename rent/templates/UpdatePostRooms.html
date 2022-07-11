@@ -1,0 +1,436 @@
+{% extends 'base2.html' %}
+{% load static %}
+{% static "images" as baseURL %}
+
+{% block content %}
+<style type="text/css">
+  .profile-head {
+    transform: translateY(5rem)
+}
+
+.cover {
+    background-image: url(https://images.unsplash.com/photo-1530305408560-82d13781b33a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1352&q=80);
+    background-size: cover;
+    background-repeat: no-repeat
+}
+
+body {
+    background: #654ea3;
+    background: linear-gradient(to right, #e96443, #904e95);
+    min-height: 100vh;
+    overflow-x: hidden
+}
+</style>
+{% for i in data %}
+
+ <div class="row">
+    <div class="col-md-10 mx-auto">
+        <!-- Profile widget -->
+        <div class="bg-white shadow rounded overflow-hidden">
+            <div class="px-4 pt-0 pb-4 cover">
+                <div class="media align-items-end profile-head">
+                    {% if i.Building_img1 %}
+                    <div class="profile mr-3"><img src="{{i.Building_img1.url}}" alt="..." width="130" class="rounded mb-2 img-thumbnail"><a href="#" class="btn btn-outline-dark btn-sm btn-block">Edit profile</a></div>
+                    {% else %}
+                    <div class="profile mr-3"><img src="{% static 'images/blank-profile.png' %}" alt="..." width="130" class="rounded mb-2 img-thumbnail"><a href="#" class="btn btn-outline-dark btn-sm btn-block">Edit profile</a></div>
+                    {% endif %}
+                    <div class="media-body mb-5 text-white">
+                        <h4 class="mt-0 mb-0">{{i.Owner_Name}}</h4>
+                        <p class="small mb-4"> <i class="fas fa-map-marker-alt mr-2"></i>{{i.House_address}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-light p-4 d-flex justify-content-end text-center">
+                <ul class="list-inline mb-0">
+                    <li class="list-inline-item">
+                        <h5 class="font-weight-bold mb-0 d-block">215</h5><small class="text-muted"> <i class="fas fa-image mr-1"></i>Likes</small>
+                    </li>
+                    <li class="list-inline-item">
+                        <h5 class="font-weight-bold mb-0 d-block">745</h5><small class="text-muted"> <i class="fas fa-user mr-1"></i>Views</small>
+                    </li>
+                    <li class="list-inline-item">
+                        <h5 class="font-weight-bold mb-0 d-block">340</h5><small class="text-muted"> <i class="fas fa-user mr-1"></i>Following</small>
+                    </li>
+                </ul>
+            </div>
+            <div class="px-4 py-3">
+
+<!--                <div class="p-4 rounded shadow-sm bg-light">-->
+<!--                    <p class="font-italic mb-0">Web Developer</p>-->
+<!--                    <p class="font-italic mb-0">Lives in New York</p>-->
+<!--                    <p class="font-italic mb-0">Photographer</p>-->
+<!--                </div>-->
+              <div>
+                  <h2 class="text-center">Update Details of This Post</h2>
+
+                  <div class="card">
+                      <div class="card-body">
+                          <form method="post" id="Roomupdateform" data-courses-url="/rent/load-dists"  enctype="multipart/form-data">
+                                 {% csrf_token %}
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-4 text-secondary">
+                                      <label for="Ownername">Owner Name *</label>
+                                      <input type="text" name = "Ownername" class="form-control" id="Ownername"  value="{{i.Owner_Name}}" >
+                                    </div>
+                                    <div class="form-group col-md-4 text-secondary">
+                                      <label for="phone">Phone no *</label>
+                                      <input type="tel" class="form-control" id="phone" value="{{i.phone_no}}" name="phone" pattern="[0-9]{10}" >
+                                    </div>
+                                    <div class="form-group col-md-4 text-secondary">
+                                      <label for="Altphone">Altrnate Phone no</label>
+                                      <input type="tel" class="form-control" id="Altphone" name="Altphone"  pattern="[0-9]{10,10}" value="{{i.Alt_phone_no}}">
+                                    </div>
+                                </div>
+                                  <div class="form-group text-secondary">
+                                    <label for="flatAddress">Flat/Room Address *</label>
+                                    <input type="text" class="form-control" id="flatAddress" name="FlatAdress" value="{{i.House_address}}" placeholder="Enter Flat/Room Address" >
+                                    <small class="form-text text-muted">Please Provide address of that Flat or Room which you want to give on Rent </small>
+                                  </div>
+                                  <div class="form-group text-secondary">
+                                    <label for="Landmark">Landmark *</label>
+                                    <input type="text" class="form-control" id="Landmark" name="landmark" placeholder="Landmark" value="{{i.Landmark}}" >
+                                  </div>
+
+
+
+                                <div class="form-group text-secondary">
+                                    <label for="Description">Flat/Room Facility Description *</label>
+                                    <textarea class="form-control" id="Description" rows="3"  name="HouseDescription"  placeholder="Tell about Facilities like 24X7 Water supply etc."></textarea>
+                                </div>
+                                 <div class="form-row">
+
+                                    <div class="form-group col-md-6">
+                                      <label for="AllowedFor">Allowed For *</label>
+                                        <select name = "AllowedFor" id="AllowedFor" class="form-control" >
+                                              <option>{{i.AllowedFor}}</option>
+                                              <option>All</option>
+                                              <option>Couple</option>
+                                              <option>Bachelor(Male)</option>
+                                              <option>Bachelor(Female)</option>
+                                              <option>With Family </option>
+
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                      <label for="House_type">Flat / Room Type *</label>
+                                        <select name = "House_type" id="House_type" class="form-control" >
+                                          <option>{{i.House_type}}</option>
+                                          <option>2BHK</option>
+                                          <option>3BHK</option>
+                                          <option>SINGLE</option>
+                                          <option>BED WISE</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+
+
+                                    <div class="form-group col-md-6">
+                                       <label for="Price">Add Rent Price *</label><br><br>
+                                       <input type="number" id="Price" name="Price" class="form-control" placeholder="Price Per Month in Rs" value="{{i.Price}}"  >
+                                   </div>
+                                </div>
+                                <br>
+                                <input type = "submit" value="Submit"  class="form-control btn btn-primary">
+                            </form>
+                      </div>
+                  </div>
+              </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!------------ FOR UPDATE MEDIA FILE ONLY ----------------------------------------------->
+
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <!-- Profile widget -->
+
+        <div class="bg-white shadow rounded overflow-hidden">
+
+            <h2 class="text-center">Previous Media  photos or  Videos</h2>
+                <div class="row py-4 px-4">
+                    <div class="col-md-6">
+                        <div class="img-box-a"><img src="{{i.Building_img1.url}}" alt="" style="width:480px; height:450px"></div>
+                    </div>
+                    <div class="col-md-6 px-4">
+                        <div class="img-box-a"><img src="{{i.Room_img1.url}}" alt="" style="width:480px; height:450px"></div>
+                    </div>
+                </div>
+                <div class="row py-4 px-4">
+                    <div class="col-md-6">
+                         <div class="img-box-a"><img src="{{i.Room_img2.url}}" alt="" style="width:480px; height:450px"></div>
+                    </div>
+                    <div class="col-md-6 px-4">
+                         <div class="img-box-a"><img src="{{i.Room_img3.url}}" alt="" style="width:480px; height:450px"></div>
+                    </div>
+                </div>
+                <div  class="row py-4 px-4">
+                    <video class="img-fluid" style="width:100%; height:auto" controls>
+                    <source src="{{i.House_video.url}}" type='video/mp4' >
+                    Your browser does not support the video tag.
+                    </video>
+                </div>
+            <h2 class="text-center"> Update Media Files For This Post  </h2>
+            <div class="px-4 py-3">
+              <div>
+<!--                  <h2 class="text-center"> Update Media Files For This Post  </h2>-->
+                  <div class="card">
+                      <div class="card-body">
+                          <form method="post" id="MediaFileRoomupdateform" data-courses-url="/rent/load-dists"  enctype="multipart/form-data">
+                                 {% csrf_token %}
+
+                                <div class="form-row">
+                                   <div class="form-group col-md-6">
+                                       <label for="Building_image">Building images *</label><br>
+                                       <input type="file" id="Building_image" name="Building_image" value={{i.Building_img1}} accept=".jpg, .jpeg, .png" class="form-control" multiple>
+                                       <small class="form-text text-muted"> <a href="/media/Housepic/{{i.Building_img1}}">Current image</a></small>
+                                   </div>
+                                    <div class="form-group col-md-6">
+                                       <label for="Roomimage">Room / Bedroom image *</label><br>
+                                       <input type="file" id="Roomimage" name="Roomimage" accept=".jpg, .jpeg, .png" class="form-control"  multiple>
+
+                                   </div>
+                                </div>
+                                <div class="form-row">
+
+                                  <div class="form-group col-md-6">
+                                       <label for="Kitchenimage">Kitchen image</label><br>
+                                       <input type="file" id="Kitchenimage" name="Kitchenimage" class="form-control" accept=".jpg, .jpeg, .png" multiple>
+
+                                   </div>
+
+                                  <div class="form-group col-md-6">
+                                       <label for="Bathroomimage">Bathroom image *</label><br>
+                                       <input type="file" id="Bathroomimage" name="Bathroomimage" accept=".jpg, .jpeg, .png" class="form-control" multiple>
+
+                                   </div>
+                                </div>
+
+                                <div class="form-row">
+
+                                   <div class="form-group col-md-6">
+                                       <label for="Video_uploads">Add Short Video Clip Of Flat/Room *</label><br>
+                                       <input type="file" id="Video_uploads" class="form-control" name="Video_uploads" accept=".mp4,.avi,.mpeg" multiple>
+                                       <small id="emailHelp" class="form-text text-muted">Choose Short Videos Of Flat/Room to upload (.MP4,.MPEG,.AVI)</small>
+                                   </div>
+                                </div>
+                                <br>
+                                <input type = "submit" value="Submit"  class="form-control btn btn-primary">
+                          </form>
+                      </div>
+                  </div>
+              </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<!--------------------- END OF UPDATE MEDIA FILE ONLY ----------------------------------->
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script>
+    $("#state_ka_id").change(function () {
+      var url = $("#Roomupdateform").attr("data-courses-url");  // get the url of the `load_courses` view
+      var state_id = $(this).val();  // get the selected programming ID from the HTML input
+
+
+      $.ajax({                       // initialize an AJAX request
+        url: url,                    // set the url of the request (= localhost:8000/load-courses/)
+        data: {
+          'state': state_id       // add the programming id to the GET parameters
+        },
+        success: function (data) {   // `data` is the return of the `load_courses` view function
+          $("#district").html(data);  // replace the contents of the course input with the data that came from the server
+        }
+      });
+
+    });
+    $("#district").change(function () {
+    var url = $("#district").attr("data-courses1-url");  // get the url of the `load_courses` view
+    var stateId = $(this).val();  // get the selected programming ID from the HTML input
+
+    $.ajax({                       // initialize an AJAX request
+      url: url,                    // set the url of the request (= localhost:8000/load-courses/)
+      data: {
+        'dist': stateId       // add the programming id to the GET parameters
+      },
+      success: function (data) {   // `data` is the return of the `load_courses` view function
+<!--          document.write("success entered into district ")-->
+        $("#city").html(data);  // replace the contents of the course input with the data that came from the server
+      }
+    });
+
+    });
+
+    $("#city").change(function () {
+    var url = $("#city").attr("data-courses2-url");  // get the url of the `load_courses` view
+    var distId = $(this).val();  // get the selected programming ID from the HTML input
+
+    $.ajax({                       // initialize an AJAX request
+      url: url,                    // set the url of the request (= localhost:8000/load-courses/)
+      data: {
+        'city': distId       // add the programming id to the GET parameters
+      },
+      success: function (data) {   // `data` is the return of the `load_courses` view function
+<!--          document.write("success entered into district ")-->
+        $("#location").html(data);  // replace the contents of the course input with the data that came from the server
+      }
+    });
+
+    });
+
+
+
+  </script>
+
+<script type="text/javascript">
+    <!--- API FOR PRODUCT UPLOAD WHERE IMAGE IS NECESSARY OR REQUIRED ---------------->
+
+
+    // Product  Update  API call
+    document.getElementById('Description').innerHTML='{{i.House_description}}'
+    var updateRoomform = document.getElementById('Roomupdateform')
+
+    updateRoomform.addEventListener('submit', function(e){
+        e.preventDefault()
+        console.log('Clicked on submit form data  in upload rooms or flat ...')
+        updateRoom()
+    //    document.getElementById('form-button').classList.add("hidden");
+
+    })
+
+
+    function updateRoom(){
+        console.log("upload room wala function chal chuka hai")
+
+        let DAta = new FormData();
+
+
+        DAta.append('id', {{i.id}});
+        DAta.append('Owner_Name', updateRoomform.Ownername.value);
+        DAta.append('phone_no', updateRoomform.phone.value);
+        DAta.append('Alt_phone_no', updateRoomform.Altphone.value);
+        DAta.append('House_address', updateRoomform.flatAddress.value);
+        DAta.append('Landmark', updateRoomform.Landmark.value);
+
+        DAta.append('House_description', updateRoomform.Description.value);
+        DAta.append('AllowedFor', updateRoomform.AllowedFor.value);
+        DAta.append('House_type', updateRoomform.House_type.value);
+        DAta.append('Price', updateRoomform.Price.value);
+
+
+        console.log(DAta,"ye data hai upload room form ka ")
+
+        var auth_token = localStorage.getItem('Auth_Token')
+
+
+        fetch('http://'+url_link+'/rent/PartialUpdateRoom', {
+            method: 'patch',
+            headers: {
+                 'X-CSRFToken':csrftoken,
+<!--                 'Authorization': 'Token '+ auth_token-->
+            },
+            body: DAta
+        }).then(response => {
+            return response.json();
+        }).then((data) => {
+            if (data.status){
+
+               console.log(data)
+               window.location.href = "/rent/Detail/{{i.id}}"
+            }
+            else{
+
+              console.log(data)
+
+
+            }
+        })
+
+    }
+
+
+
+
+
+<!---------- END OF PRODUCT API ---------------------------------------------->
+
+
+<!------------------------  ONLY MEDIA FILE UPDATES ---------------------------------->
+
+ // Product  Update  API call
+
+    var updateMediaform = document.getElementById('MediaFileRoomupdateform')
+
+    updateMediaform.addEventListener('submit', function(e){
+        e.preventDefault()
+        console.log('Clicked on submit form data  in upload rooms or flat ...')
+        UpdateMediaFile()
+    //    document.getElementById('form-button').classList.add("hidden");
+
+    })
+
+            function UpdateMediaFile(){
+
+            let Building_image = document.getElementById('Building_image');
+            let Roomimage = document.getElementById('Roomimage');
+            let Kitchenimage = document.getElementById('Kitchenimage');
+            let Bathroomimage = document.getElementById('Bathroomimage');
+            let ownerimage = document.getElementById('ownerimage');
+            let House_video = document.getElementById('Video_uploads');
+
+
+            let Media_File_Data = new FormData();
+
+            Media_File_Data.append('Building_img1', Building_image.files[0]);
+            Media_File_Data.append('Room_img1', Roomimage.files[0]);
+            Media_File_Data.append('Room_img2', Kitchenimage.files[0]);
+            Media_File_Data.append('Room_img3', Bathroomimage.files[0]);
+            Media_File_Data.append('House_video', House_video.files[0]);
+            Media_File_Data.append('id', {{i.id}});
+
+            var auth_token = localStorage.getItem('Auth_Token')
+
+
+            fetch('http://'+url_link+'/rent/UpdateRoomMediaFile', {
+                method: 'patch',
+                headers: {
+                     'X-CSRFToken':csrftoken,
+<!--                     'Authorization': 'Token '+ auth_token-->
+                },
+                body: Media_File_Data
+            }).then(response => {
+                return response.json();
+            }).then((data) => {
+                if (data.status){
+                   console.log(data)
+                   window.location.href = "/rent/Detail/{{i.id}}"
+                }
+                else{
+
+                  console.log(data)
+
+
+                }
+            })
+
+
+    }
+
+
+
+<!-------------------- END OF MEDIA FILE UPDATE --------------------------------------->
+
+</script>
+
+{% endfor %}
+{% endblock %}

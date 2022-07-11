@@ -1,0 +1,687 @@
+{% load static %}
+{% static "images" as baseURL %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Apnaashiyana.com</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+
+ <!--- New Estate Template Fir se kr rhe hai  --------------------->
+
+  <!-- Favicons -->
+  <link href="{% static 'assets11/img/favicon.png' %}" rel="icon">
+  <link href="{% static 'assets11/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets11/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets11/vendor/ionicons/css/ionicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets11/vendor/animate.css/animate.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets11/vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets11/vendor/owl.carousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+
+   <!-- Template Main CSS File -->
+  <link href="{% static 'assets11/css/style.css' %}" rel="stylesheet">
+
+
+  <link rel="stylesheet" type="text/css" href="{% static 'colorlib-regform-30/css/opensans-font.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'colorlib-regform-30/fonts/line-awesome/css/line-awesome.min.css' %}">
+  <!-- Jquery -->
+  <link rel="stylesheet" href="https://jqueryvalidation.org/files/demo/site-demos.css">
+  <!-- Main Style Css for pop up colorlib ka -->
+  <link rel="stylesheet" href="{% static 'colorlib-regform-30/css/trystyle.css' %}"/>
+
+<link rel="stylesheet" type="text/css" href="{% static 'styles/main_styles.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/responsive.css' %}">
+
+
+
+
+  <!-- =======================================================
+  * Template Name: EstateAgency - v2.2.1
+  * Template URL: https://bootstrapmade.com/real-estate-agency-bootstrap-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+
+  <!-- ======= Header/Navbar ======= -->
+  <nav class="navbar navbar-default navbar-trans navbar-expand-lg fixed-top bg-dark">
+    <div class="container">
+      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarDefault" aria-controls="navbarDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <a class="navbar-brand text-brand" href="/rent/home">Apna<span class="color-b">Ashiyana</span></a>
+
+      <div class="navbar-collapse collapse justify-content-center" id="navbarDefault" >
+        <ul class="navbar-nav" style="color:white;">
+
+          <li class="nav-item">
+            <a class="nav-link active" href="/rent/home">Home</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/rent/about/" >About</a>
+          </li>
+
+<!--          <li class="nav-item dropdown">-->
+<!--            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+<!--              Pages-->
+<!--            </a>-->
+<!--            <div class="dropdown-menu" aria-labelledby="navbarDropdown">-->
+<!--              <a class="dropdown-item" href="property-single.html">Property Single</a>-->
+<!--              <a class="dropdown-item" href="blog-single.html">Blog Single</a>-->
+<!--              <a class="dropdown-item" href="agents-grid.html">Agents Grid</a>-->
+<!--              <a class="dropdown-item" href="agent-single.html">Agent Single</a>-->
+<!--            </div>-->
+<!--          </li>-->
+
+          <li class="nav-item">
+            <a class="nav-link" href="/rent/contact/">Contact</a>
+          </li>
+          {% if user.is_admin  %}
+            <li class="nav-item active">
+               <a class="nav-link" href="/rent/validationpage">ValidationPage</a>
+            </li>
+          {% endif %}
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="/api/ShowPremiumPlans"> Add Premium </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/rent/UploadHouseDetail/" onclick="CheckPremium()" >Give Flat/Room On Rent</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/api/profile/view/">{{user.username}}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/api/logout">Logout</a>
+          </li>
+          {% else %}
+            <li class="nav-item">
+             <a class="nav-link" href="" data-toggle="modal" data-target="#verifyPhoneModal">Register</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href=""  data-toggle="modal" data-target="#loginModal">Login</a>
+          </li>
+          {% endif %}
+
+        </ul>
+
+      </div>
+      <button type="button" class="btn btn-b-n navbar-toggle-box-collapse d-none d-md-block" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-expanded="false">
+       <span class="fa fa-search" aria-hidden="true"></span>
+      </button>
+    </div>
+  </nav>
+<!-- End Header/Navbar -->
+
+
+  <!-- ======= Property Search Section ======= -->
+  <div class="click-closed"></div>
+  <!--/ Form Search Star /-->
+  <div class="box-collapse">
+    <div class="title-box-d">
+      <h3 class="title-d">Search Mess</h3>
+    </div>
+    <span class="close-box-collapse right-boxed ion-ios-close"></span>
+    <div class="box-collapse-wrap form">
+      <form class="form-a">
+        <div class="row">
+          <div class="col-md-12 mb-2">
+            <div class="form-group">
+              <label for="Type">Keyword</label>
+              <input type="text" class="form-control form-control-lg form-control-a" placeholder="Keyword">
+            </div>
+          </div>
+          <div class="col-md-6 mb-2">
+            <div class="form-group">
+              <label for="Type">Type</label>
+              <select class="form-control form-control-lg form-control-a" id="Type">
+                <option>All Type</option>
+                <option>For Rent</option>
+                <option>For Sale</option>
+                <option>Open House</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6 mb-2">
+            <div class="form-group">
+              <label for="city">City</label>
+              <select class="form-control form-control-lg form-control-a" id="citymess">
+                <option>All City</option>
+                <option>Alabama</option>
+                <option>Arizona</option>
+                <option>California</option>
+                <option>Colorado</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6 mb-2">
+            <div class="form-group">
+              <label for="bedrooms">Bedrooms</label>
+              <select class="form-control form-control-lg form-control-a" id="bedrooms">
+                <option>Any</option>
+                <option>01</option>
+                <option>02</option>
+                <option>03</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6 mb-2">
+            <div class="form-group">
+              <label for="garages">Garages</label>
+              <select class="form-control form-control-lg form-control-a" id="garages">
+                <option>Any</option>
+                <option>01</option>
+                <option>02</option>
+                <option>03</option>
+                <option>04</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6 mb-2">
+            <div class="form-group">
+              <label for="bathrooms">Bathrooms</label>
+              <select class="form-control form-control-lg form-control-a" id="bathrooms">
+                <option>Any</option>
+                <option>01</option>
+                <option>02</option>
+                <option>03</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6 mb-2">
+            <div class="form-group">
+              <label for="price">Min Price</label>
+              <select class="form-control form-control-lg form-control-a" id="price">
+                <option>Unlimite</option>
+                <option>$50,000</option>
+                <option>$100,000</option>
+                <option>$150,000</option>
+                <option>$200,000</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <button type="submit" class="btn btn-b">Search</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div><!-- End Property Search Section -->>
+
+<!--- Registration Form --------------->
+  <div class="modal" id="regModal" role="document">
+    <div class="modal-dialog modal-md">
+
+        <div class="modal-body">
+            <div class="modal-content">
+            <div class="form-v4">
+                <div class="page-content">
+                    <div class="form-v4-content">
+
+                        <form class="form-detail" action="#" id="myform">
+                             {% csrf_token %}
+                            <button type="button" class="close" id="CloseRegModal" data-dismiss="modal">&times;</button>
+                            <h2>REGISTER FORM</h2>
+                            <div class="form-group">
+                                <div class="form-row form-row-1">
+                                    <label for="full_name">Full Name</label>
+                                    <input type="text" name="full_name" id="full_name" class="input-text">
+                                </div>
+                                <div class="form-row form-row-1">
+                                    <label for="dob">D.O.B</label>
+                                    <input type="date" name="Date_of_Birth" id="dob" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <label for="your_email">Your Email</label>
+                                <input type="text" name="your_email" id="your_email" class="input-text" required pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}">
+                            </div>
+                            <div class="form-group">
+                                <div class="form-row form-row-1 ">
+                                    <label for="password">Password</label>
+                                    <input type="password" name="password" id="password" class="input-text" required>
+                                </div>
+                                <div class="form-row form-row-1">
+                                    <label for="comfirm_password">Comfirm Password</label>
+                                    <input type="password" name="comfirm_password" id="comfirm_password" class="input-text" required>
+                                </div>
+                            </div>
+                            <div class="form-checkbox">
+                               <p>Already hnave an account ? <a href="#" class="text" onclick="openLogin_Modal()">login</a></p>
+<!--                               <p>Already hnave an account ? <a href="#" class="text" data-toggle="modal" data-target="#loginModal">login</a></p>-->
+                            </div>
+                            <div class="form-row-last">
+                                <input type="submit" name="register" class="register" value="Register">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+<!---- End Registration Form -------->
+
+
+<!--- LOGIN Form --------------->
+  <div class="modal" id="loginModal" role="document">
+    <div class="modal-dialog modal-md">
+
+        <div class="modal-body">
+            <div class="modal-content">
+            <div class="form-v4">
+                <div class="page-content">
+                    <div class="form-v4-content">
+
+                        <form class="form-detail" action="#" id="loginform">
+                             {% csrf_token %}
+                            <button type="button" class="close" id="logClose" data-dismiss="modal">&times;</button>
+                            <h2>LOGIN FORM</h2>
+                            <div class="form-group">
+                                <div class="form-row form-row-1 ">
+                                     <label for="phone">Phone no *</label>
+                                     <input type="tel" class="input-text" id="phn" name="phone" pattern="[0-9]{10}" placeholder="phone number" required="">
+                                </div>
+                            </div>
+
+
+                           <div class="form-group">
+                                <div class="form-row form-row-1 ">
+                                    <label for="password">Password</label>
+                                    <input type="password" name="password" id="passwd" class="input-text" required>
+                                </div>
+                            </div>
+                            <div class="form-checkbox">
+                                <p>Forget password ? <a href="#" class="text" onclick="openReset_Pass_Modal()">click here to reset password</a></p>
+                            </div>
+                            <div class="form-row-last">
+                                <input type="submit" name="Login" class="register" value="Login">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+<!---- End Login Form -------->
+
+
+<!--- Verify Phone  --------------->
+  <div class="modal" id="verifyPhoneModal" role="document">
+    <div class="modal-dialog modal-md">
+
+        <div class="modal-body">
+            <div class="modal-content">
+            <div class="form-v4">
+                <div class="page-content">
+                    <div class="form-v4-content">
+
+                        <form class="form-detail" action="#" id="verifyPhoneform">
+                            {% csrf_token %}
+                            <button type="button" class="close" id="verifyPhoneClose" data-dismiss="modal">&times;</button>
+                            <h2>VERIFY PHONE NUMBER </h2>
+                            <div class="form-group">
+                                <div class="form-row form-row-1 ">
+                                     <label for="phone_no">Phone no *</label>
+                                     <input type="tel" class="input-text" id="phone_no" name="phone" pattern="[0-9]{10}" placeholder="phone number" required="">
+                                </div>
+                            </div>
+                            <div class="form-row-last">
+                                <input type="submit" name="Login" class="register" value="Generate OTP">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+<!---- End VerifyPhone Form -------->
+
+
+<!--- VerifY OTP   --------------->
+  <div class="modal" id="verifyOTPModal" role="document">
+    <div class="modal-dialog modal-md">
+
+        <div class="modal-body">
+            <div class="modal-content">
+            <div class="form-v4">
+                <div class="page-content">
+                    <div class="form-v4-content">
+
+                        <form class="form-detail" action="#" id="verifyotpform">
+                             {% csrf_token %}
+                            <button type="button" class="close" id="verifyOTPClose" data-dismiss="modal">&times;</button>
+                            <h2>VERIFY OTP </h2>
+                            <div class="form-group">
+                                <div class="form-row form-row-1 ">
+                                     <label for="phone">Enter OTP</label>
+                                     <input type="number" class="input-text" id="otp" name="otp" required="">
+                                </div>
+                            </div>
+                            <div class="form-row-last">
+                                <input type="submit" name="Login" class="register" value="Verify OTP">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+<!---- End Verify OTP Form -------->
+
+
+<!--- Reset Password Form   --------------->
+  <div class="modal" id="reset_pass_modal" role="document">
+    <div class="modal-dialog modal-md">
+
+        <div class="modal-body">
+            <div class="modal-content">
+            <div class="form-v4">
+                <div class="page-content">
+                    <div class="form-v4-content">
+
+                        <form class="form-detail" action="#" id="reset_pass_form">
+                             {% csrf_token %}
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h2>RESET PASSWORD FORM</h2>
+                            <div class="form-row">
+                                <label for="reset_email">Your Email</label>
+                                <input type="text" name="reset_email" id="reset_email" class="input-text" required pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}">
+                            </div>
+                            <div class="form-row-last">
+                                <input type="submit" name="ResetPaas" class="register" value="Reset password">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+
+<!---- End Reset Password Form -------->
+
+
+
+   {% block content %}
+
+   {% endblock %}
+
+
+
+  <!-- ======= Footer ======= -->
+  <section class="section-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12 col-md-4">
+          <div class="widget-a">
+            <div class="w-header-a">
+              <h3 class="w-title-a text-brand">ApnaAshiyana</h3>
+            </div>
+            <div class="w-body-a">
+              <p class="w-text-a color-text-a">
+               ApnaAshiyana is a platform where you can search for Rooms, Flat, Apartment available on Rent for Bachelor or  Family
+              </p>
+            </div>
+            <div class="w-footer-a">
+              <ul class="list-unstyled">
+                <li class="color-a">
+                  <span class="color-text-a">Phone .</span> +91 8340 312 640
+                </li>
+                <li class="color-a">
+                  <span class="color-text-a">Email .</span> apna@ashiyana.com
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-4 section-md-t3">
+          <div class="widget-a">
+            <div class="w-header-a">
+              <h3 class="w-title-a text-brand">The Company</h3>
+            </div>
+            <div class="w-body-a">
+              <div class="w-body-a">
+                <ul class="list-unstyled">
+                  <li class="item-list-a">
+                    <i class="fa fa-angle-right"></i> <a href="#">Site Map</a>
+                  </li>
+                  <li class="item-list-a">
+                    <i class="fa fa-angle-right"></i> <a href="#">Legal</a>
+                  </li>
+                  <li class="item-list-a">
+                    <i class="fa fa-angle-right"></i> <a href="#">Agent Admin</a>
+                  </li>
+                  <li class="item-list-a">
+                    <i class="fa fa-angle-right"></i> <a href="#">Careers</a>
+                  </li>
+                  <li class="item-list-a">
+                    <i class="fa fa-angle-right"></i> <a href="#">Affiliate</a>
+                  </li>
+                  <li class="item-list-a">
+                    <i class="fa fa-angle-right"></i> <a href="#">Privacy Policy</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-4 section-md-t3">
+          <div class="widget-a">
+            <div class="w-header-a">
+              <h3 class="w-title-a text-brand">International sites</h3>
+            </div>
+            <div class="w-body-a">
+              <ul class="list-unstyled">
+                <li class="item-list-a">
+                  <i class="fa fa-angle-right"></i> <a href="#">Venezuela</a>
+                </li>
+                <li class="item-list-a">
+                  <i class="fa fa-angle-right"></i> <a href="#">China</a>
+                </li>
+                <li class="item-list-a">
+                  <i class="fa fa-angle-right"></i> <a href="#">Hong Kong</a>
+                </li>
+                <li class="item-list-a">
+                  <i class="fa fa-angle-right"></i> <a href="#">Argentina</a>
+                </li>
+                <li class="item-list-a">
+                  <i class="fa fa-angle-right"></i> <a href="#">Singapore</a>
+                </li>
+                <li class="item-list-a">
+                  <i class="fa fa-angle-right"></i> <a href="#">Philippines</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <nav class="nav-footer">
+            <ul class="list-inline">
+              <li class="list-inline-item">
+                <a href="#">Home</a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">About</a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">Property</a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">Blog</a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">Contact</a>
+              </li>
+            </ul>
+          </nav>
+          <div class="socials-a">
+            <ul class="list-inline">
+              <li class="list-inline-item">
+                <a href="#">
+                  <i class="fa fa-facebook" aria-hidden="true"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">
+                  <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">
+                  <i class="fa fa-instagram" aria-hidden="true"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="https://www.youtube.com/channel/UC1KgTWiC9sHMtbIfv5rYFfA?view_as=subscriber">
+                  <i class="fa fa-youtube" aria-hidden="true"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="">
+                  <i class="fa fa-pinterest-p" aria-hidden="true"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">
+                  <i class="fa fa-dribbble" aria-hidden="true"></i>
+                </a>
+              </li>
+
+            </ul>
+          </div>
+
+          <div class="copyright-footer">
+            <p class="copyright color-text-a">
+              &copy; Copyright
+              <span class="color-a">ApnaAshiyana</span> All Rights Reserved.
+            </p>
+          </div>
+          <div class="credits">
+            <!--
+            All the links in the footer should remain intact.
+            You can delete the links only if you purchased the pro version.
+            Licensing information: https://bootstrapmade.com/license/
+            Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=EstateAgency
+          -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer><!-- End  Footer -->
+
+  <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+  <div id="preloader"></div>
+
+<!------script ends -->
+  <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+
+<script type="text/javascript">
+  function CheckPremium(){
+
+       var Prem = '{{user.profile.Premium}}';
+       if(Prem == 'True'){
+         console.log(Prem)
+         window.location.href = "/rent/UploadHouseDetail/"
+       }
+       else{
+        alert("Not A Premium Account")
+
+       }
+
+
+
+  }
+
+
+    // just for the demos, avoids form submit
+    jQuery.validator.setDefaults({
+        debug: true,
+        success:  function(label){
+            label.attr('id', 'valid');
+        },
+    });
+    $( "#myform" ).validate({
+        rules: {
+            password: "required",
+            comfirm_password: {
+                equalTo: "#password"
+            }
+        },
+        messages: {
+            full_name: {
+                required: "Please enter a firstname"
+            },
+            dob: {
+                required: "Please enter a lastname"
+            },
+            your_email: {
+                required: "Please provide an email"
+            },
+            password: {
+                required: "Please enter a password"
+            },
+            comfirm_password: {
+                required: "Please enter a password",
+                equalTo: "Wrong Password"
+            }
+        }
+    });
+</script>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'assets11/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'assets11/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets11/vendor/jquery.easing/jquery.easing.min.js' %}"></script>
+  <script src="{% static 'assets11/vendor/php-email-form/validate.js' %}"></script>
+  <script src="{% static 'assets11/vendor/owl.carousel/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'assets11/vendor/scrollreveal/scrollreveal.min.js' %}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'assets11/js/main.js' %}"></script>
+  <script src="{% static 'js/popup.js' %}"></script>
+
+
+</body>
+
+</html>

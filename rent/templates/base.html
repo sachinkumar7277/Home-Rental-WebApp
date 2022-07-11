@@ -1,0 +1,87 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>GharKhojo.com</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v6.0"></script>
+
+     <style>
+  /* Make the image fully responsive */
+  .carousel-inner img {
+    width: 100%;
+    height: -1%;
+  }
+  .card-item img {
+    width: 305px;
+    height: 300px;
+  }
+
+   .gallery img {
+    width: 305px;
+    height: 300px;
+  }
+
+  .enroll-button {
+    width: 100%;
+    height: 100%;
+  }
+
+  { margin:0; padding: 0; font-family: 'Courgette', cursive;
+  </style>
+
+  </head>
+<body>
+<header>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Home Rental Services</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/Rental/home">Home <span class="sr-only"></span></a>
+      </li>
+
+
+
+    </ul>
+
+
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+
+      {% if user.is_authenticated %}
+      <button class="btn btn-outline-success my-2 my-sm-1" type="submit">
+          <a href="/accounts/logout">Logout</a>
+      </button>
+      {% else %}
+      <button class="btn btn-outline-success my-2 my-sm-1" type="submit">
+          <a href="/accounts/login">Login</a>
+      </button>
+      {% endif %}
+    </form>
+  </div>
+
+   </nav>
+    {% if user.is_authenticated %}
+      <h1 class="text-center text-capitalize">hi! {{user.username}} </h1>
+
+    {% endif %}
+   {% block content %}
+   {% endblock %}
+    <p class="text-center bg-primary text-white"> @copyright Gharkhojo.com 2020 </p>
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+</html>

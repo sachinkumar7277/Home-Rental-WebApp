@@ -1,0 +1,287 @@
+{% extends 'base2.html' %}
+{% load static %}
+{% static "images" as baseURL %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<!--<!doctype html>-->
+<!--<html lang="en" xmlns="http://www.w3.org/1999/html">-->
+<!--  <head>-->
+<!--    <title>COMMUNITY NEWS</title>-->
+<!--    &lt;!&ndash; Required meta tags &ndash;&gt;-->
+<!--    <meta charset="utf-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">-->
+
+<!--    &lt;!&ndash; Bootstrap CSS &ndash;&gt;-->
+<!--    <link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet">-->
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
+<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">-->
+<!--    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v6.0"></script>-->
+
+     <style>
+  /* Make the image fully responsive */
+  body {
+  background-color: lightblue;
+}
+
+  .carousel-inner img {
+    width: 100%;
+    height: -1%;
+  }
+  .card-item img {
+    width: 305px;
+    height: 300px;
+  }
+
+  .list-group img {
+    width: 305px;
+    height: 300px;
+  }
+
+
+   .gallery img {
+    width: 305px;
+    height: 300px;
+  }
+
+  .enroll-button {
+    width: 100%;
+    height: 100%;
+  }
+
+
+  .col-md-3 {
+    display: inline-block;
+    margin-left:-4px;
+  }
+
+  .carousel-indicators .active {
+    background-color: blue;
+  }
+
+  .col-md-3 img{
+
+    width: 255px;
+    height:250px;
+  }
+
+  body .carousel-indicator li{
+    background-color: blue;
+  }
+
+  body .carousel-indicators{
+    bottom: 0;
+  }
+
+  body .carousel-control-prev-icon,
+    body .carousel-control-next-icon{
+    background-color: blue;
+  }
+  body .no-padding{
+    padding-left: 0,
+    padding-right: 0;
+  }
+
+.img-fluid:hover {
+  opacity: 0.3;
+}
+
+ .media-body:hover text{
+  opacity: 1;
+}
+
+
+
+
+.fa {
+  padding: 20px;
+  font-size: 30px;
+  width: 50px;
+  text-align: center;
+  text-decoration: none;
+  margin: 5px 2px;
+}
+
+.fa:hover {
+    opacity: 0.7;
+}
+
+.fa-facebook {
+  background: #3B5998;
+  color: white;
+}
+
+.fa-twitter {
+  background: #55ACEE;
+  color: white;
+}
+
+.fa-google {
+  background: #dd4b39;
+  color: white;
+}
+
+.fa-linkedin {
+  background: #007bb5;
+  color: white;
+}
+
+.fa-youtube {
+  background: #bb0000;
+  color: white;
+}
+
+.fa-instagram {
+  background: #125688;
+  color: white;
+}
+
+.fa-pinterest {
+  background: #cb2027;
+  color: white;
+}
+
+.fa-snapchat-ghost {
+  background: #fffc00;
+  color: white;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.fa-skype {
+  background: #00aff0;
+  color: white;
+}
+
+.fa-android {
+  background: #a4c639;
+  color: white;
+}
+
+.fa-dribbble {
+  background: #ea4c89;
+  color: white;
+}
+
+.fa-vimeo {
+  background: #45bbff;
+  color: white;
+}
+
+.fa-tumblr {
+  background: #2c4762;
+  color: white;
+}
+
+.fa-vine {
+  background: #00b489;
+  color: white;
+}
+
+.fa-foursquare {
+  background: #45bbff;
+  color: white;
+}
+
+.fa-stumbleupon {
+  background: #eb4924;
+  color: white;
+}
+
+.fa-flickr {
+  background: #f40083;
+  color: white;
+}
+
+.fa-yahoo {
+  background: #430297;
+  color: white;
+}
+
+.fa-soundcloud {
+  background: #ff5500;
+  color: white;
+}
+
+.fa-reddit {
+  background: #ff5700;
+  color: white;
+}
+
+.fa-rss {
+  background: #ff6600;
+  color: white;
+  }
+
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+
+  { margin:0; padding: 0; font-family: 'Courgette', cursive;
+  </style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+
+<h2>Validate The Posts </h2>
+<br><br><br><br><br><br>
+<div class="container">
+<table>
+  <tr>
+    <th>Video Clip</th>
+    <th>Building Image</th>
+    <th>Room Image</th>
+    <th>Kitchen image</th>
+    <th>Bathroom image</th>
+    <th>Owner Name</th>
+    <th>House Address</th>
+    <th>House Description</th>
+    <th>House Location Link</th>
+    <th>Validate Post</th>
+
+  </tr>
+  {% for i in data %}
+  <tr>
+    <td>
+      <div class="col-lg-6 col-md-6 col-12">
+            <video class="video-center" width="200" height="150" controls>
+            <source src="{{i.House_video.url}}" type='video/mp4' >
+            Your browser does not support the video tag.
+            </video>
+      </div>
+    </td>
+    <td><img src="{{i.Building_img1.url}}" alt="New York" width="200" height="100"></td>
+    <td><img src="{{i.Room_img1.url}}" alt="New York" width="200" height="150"></td>
+    <td><img src="{{i.Room_img2.url}}" alt="New York" width="200" height="150"></td>
+    <td><img src="{{i.Room_img3.url}}" alt="New York" width="200" height="150"></td>
+    <td>{{i.Owner_Name}}</td>
+    <td>{{i.House_address}}</td>
+    <td>{{i.House_description}}</td>
+    <td><a href="{{i.House_Location_link}}">{{i.House_Location_link}}</a></td>
+    <td>
+     <a href="/rent/DeletePost/{{i.id}}"><button>Delete Post</button></a>
+    </td>
+
+  </tr>
+  {% endfor %}
+</table>
+</div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+
+
+{% endblock %}

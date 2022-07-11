@@ -1,0 +1,614 @@
+{% load static %}
+{% static "images" as baseURL %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Gharkhojo.com</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Get Flats or Rooms on Rent">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+<link href="{% static 'plugins/font-awesome-4.7.0/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/owl.carousel.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/owl.theme.default.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/animate.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/main_styles.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/responsive.css' %}">
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v6.0"></script>
+
+	  <style>
+  /* Make the image fully responsive */
+  .carousel-item background_image {
+    width: 100%;
+    height: -50%;
+  }
+  </style>
+
+</head>
+<body>
+
+<div class="super_container">
+
+	<!-- Header -->
+
+	<header class="header">
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<div class="header_content d-flex flex-row align-items-center justify-content-start">
+						<div class="header_content_inner d-flex flex-row align-items-end justify-content-start">
+							<div class="logo"><a href="homepage">Home Rental Services</a></div>
+							<nav class="main_nav">
+								<ul class="d-flex flex-row align-items-start justify-content-start">
+									<li class="active"><a href="/Rental/home">Home</a></li>
+									<li><a href="/rent/about">About us</a></li>
+									{% if user.is_authenticated %}
+<!--									<li> Welcome {{user.username}}</li>-->
+									<li><a href="/rent/uploadnews">Give Flat/Room On Rent</a></li>
+									<li><a href="/rent/profile/edit/{{user.profile.id}}">Profile</a></li>
+									<li><a href="/accounts/logout">Logout </a></li>
+									{% else %}
+									<li><a href="/accounts/register">Register</a></li>
+									<li><a href="/accounts/login">Login</a></li>
+									{% endif %}
+									<li><a href="contact.html">Contact</a></li>
+									<li><a href="contact.html">Call us : 8340312640</a></li>
+								</ul>
+							</nav>
+							<!---
+							<div class="header_phone ml-auto"> Call us : 8340312640</div>  --->
+
+							<!-- Hamburger -->
+
+							<div class="hamburger ml-auto">
+								<i class="fa fa-bars" aria-hidden="true"></i>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="header_social d-flex flex-row align-items-center justify-content-start">
+			<ul class="d-flex flex-row align-items-start justify-content-start">
+				<li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+				<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+				<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+				<li><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+				<li><a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a></li>
+				<li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+			</ul>
+		</div>
+	</header>
+
+	<!-- Menu -->
+
+	<div class="menu">
+		<div class="menu_header d-flex flex-row align-items-center justify-content-start">
+			<div class="menu_logo"><a href="homepage">Home Rental Services </a></div>
+			<div class="menu_close_container ml-auto"><div class="menu_close"><div></div><div></div></div></div>
+		</div>
+		<div class="menu_content">
+			<ul>
+				<li><a href="/rent/home">Home</a></li>
+				<li><a href="/rent/about">About us</a></li>
+				{% if user.is_authenticated %}
+				<li> Welcome {{user.username}}</li>
+				<li><a href="/rent/uploadnews">Give Flat/Room On Rent</a></li>
+				<li><a href="/rent/profile/edit/{{user.profile.id}}">Profile</a></li>
+				<li><a href="/accounts/logout">Logout </a></li>
+				{% else %}
+				<li><a href="/accounts/register">register</a></li>
+				<li><a href="/accounts/login">Login</a></li>
+				{% endif %}
+				<li><a href="contact.html"> <b>Contact</b> </a></li>
+			</ul>
+		</div>
+		<div class="menu_social">
+			<div class="menu_phone ml-auto">Call us:   8340312640 </div>
+			<ul class="d-flex flex-row align-items-start justify-content-start">
+				<li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+				<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+				<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+				<li><a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+				<li><a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a></li>
+				<li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+			</ul>
+		</div>
+	</div>
+
+
+
+	<!-- Home --
+
+	<div class="home">
+
+		<!-- Home Slider --
+		<div class="home_slider_container">
+			<div class="owl-carousel owl-theme home_slider">
+
+				<!-- Slide --
+				<div class="owl-item">
+					<div class="background_image" style="background-image:url({% static 'images/flat.jpg' %}) " ></div>
+					<div class="home_slider_content_container">
+						<div class="container">
+							<div class="row">
+								<div class="col">
+									<div class="home_slider_content">
+										<div class="home_title"><h2>Give Your Flat Or Room On Rent</h2></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+                {% block content %}
+				<!-- Slide --
+				<div class="owl-item">
+					<div class="background_image" style="background-image:url({% static 'images/RoomHotel.jpg' %})" ></div>
+					<div class="home_slider_content_container">
+						<div class="container">
+							<div class="row">
+								<div class="col">
+									<div class="home_slider_content">
+										<div class="home_title"><h2>Give Your Flat Or Room On Rent</h2></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+                {% endblock %}
+				<!-- Slide --
+				<div class="owl-item">
+					<div class="background_image" style="background-image:url({% static 'images/flat.jpg' %})"></div>
+					<div class="home_slider_content_container">
+						<div class="container">
+							<div class="row">
+								<div class="col">
+									<div class="home_slider_content">
+										<div class="home_title"><h2>Give Your Flat Or Room On Rent</h2></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="home_page_nav">
+				<ul class="d-flex flex-column align-items-end justify-content-end">
+					<li><a href="#" data-scroll-to="#destinations">Offers<span>01</span></a></li>
+					<li><a href="#" data-scroll-to="#testimonials">Testimonials<span>02</span></a></li>
+					<li><a href="#" data-scroll-to="#news">Latest<span>03</span></a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<!-- Search --
+
+	<div class="home_search">
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<div class="home_search_container">
+						<div class="home_search_title">Search for Flat or Room on Rent</div>
+						<div class="home_search_content">
+							<form action="#" class="home_search_form" id="home_search_form" enctype="multipart/form-data" method="post">
+								 {% csrf_token %}
+								<div class="d-flex flex-lg-row flex-column align-items-start justify-content-lg-between justify-content-start">
+									<input type="text" class="search_input search_input_1" name="City_or_Location"  placeholder="City/Location" required="required">
+									<select name = "House_type" class="search_input search_input_1" required="required">
+										<option>----select----</option>
+										<option>2BHK</option>
+										<option>3BHK</option>
+										<option>Single Room</option>
+									</select>
+									<select name = "Price Range" class="search_input search_input_1" required="required">
+										<option>----select----</option>
+										<option>1000-2000</option>
+										<option>2000-3000</option>
+										<option>3000-6000</option>
+									</select>
+									<!---
+									<input type="text" class="search_input search_input_2" placeholder="House Type" required="required">
+									<input type="text" class="search_input search_input_3" placeholder="Price" required="required"> ----
+									<button class="home_search_button">search</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Intro --
+
+	<div class="intro">
+		<div class="intro_background" style="background-image:url({% static 'images/intro.png' %})"></div>
+		<div class="container">
+			<div class="row">
+				<div class="col-xl-8">
+					<div class="intro_container">
+						<div class="row">
+							{% for shop in shops %}
+							<!-- Intro Item --
+							<div class="col-lg-4 intro_col">
+								<div class="intro_item d-flex flex-row align-items-end justify-content-start">
+									<div class="intro_icon">
+										<img src="{{shop.img.url}}" class="img-responsive" alt="">
+										{% if dest.offer == True %}
+										<div class="spec_offer text-center"><a href="#">special OFFER</a></div>
+										{% endif %}
+
+									</div>
+									<div class="intro_content">
+										<div class="intro_title">{{shop.retailer_name}}</div>
+										<div class="intro_subtitle"><p>{{shop.des}}</p></div>
+									</div>
+								</div>
+							</div>
+							{% endfor %}
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Destinations --
+
+	<div class="destinations" id="destinations">
+		<div class="container">
+			<div class="row">
+				<div class="col text-center">
+					<div class="section_subtitle">simply amazing prices</div>
+					<div class="section_title"><h2>Your Search Result </h2></div>
+				</div>
+			</div>
+
+		</div>
+	</div><br>
+<div> --->
+<!----------Crousel Start --------------------->
+
+<!------------Carousel Enfd ------------------------->
+<div class="destinations" id="destinations">
+	<div class="container">
+		<div class="row">
+			<div class="col text-center">
+				<div class="section_subtitle">simply amazing prices</div>
+				<div class="section_title"><h2>Detailed view :-</h2></div>
+			</div>
+		</div>
+		<div class="row">
+
+			<div class="col">
+
+				<div>
+				   {% for i in Detail %}
+					<!-- Destination -->
+					<div>
+						<div>
+							<div>
+								<img src="{{i.Building_img1.url}}" alt="" style="width:350px; height:300px">
+								<div class="destination_content">
+									<div class="destination_title"><a href="destinations.html">Owner Name : {{i.Owner_Name}}</a></div>
+									<p class="text-muted">House Type : {{i.House_type}}</p>
+									<p class="text-muted">Location : {{i.city}}</p>
+									<div class="destination_subtitle"><p>{{i.House_description}}</p></div>
+									<div class="destination_price">{{i.Price}} Rs / Month           <a class="btn btn-success " href="#">Book Now</a> </div>
+						        </div>
+							</div><br><br>
+
+							<div id="demo" class="carousel slide" data-ride="carousel">
+							  <ul class="carousel-indicators">
+								<li data-target="#demo" data-slide-to="0" class="active"></li>
+								<li data-target="#demo" data-slide-to="1"></li>
+								<li data-target="#demo" data-slide-to="2"></li>
+							  </ul>
+							  <div class="carousel-inner">
+								<div class="carousel-item active">
+								  <img src="{{i.Room_img2.url}}" alt="" width="1080" height="500">
+								  <div class="carousel-caption">
+									<div class="container">
+									   <div class="enroll-button">
+										  <h1 class="text-center text-capitalize pt-5" > Hall </h1>
+										  <hr class="w-25 mx-auto pb-5">
+									   </div>
+									</div>
+								  </div>
+								</div>
+
+								<div class="carousel-item">
+								  <img src="{{i.Room_img3.url}}" alt="Chicago" width="1080" height="500">
+									<div class="carousel-caption">
+										<div class="container">
+										   <div class="enroll-button">
+											  <h1 class="text-center text-capitalize pt-5" >Bed Room </h1>
+											  <hr class="w-25 mx-auto pb-5">
+										   </div>
+										</div>
+									  </div>
+									</div>
+								<div class="carousel-item">
+								  <img src="{{i.Room_img4.url}}" alt="New York" width="1080" height="500">
+									<div class="carousel-caption">
+										<div class="container">
+										   <div class="enroll-button">
+											  <h1 class="text-center text-capitalize pt-5" > Kitchen </h1>
+											  <hr class="w-25 mx-auto pb-5">
+										   </div>
+										</div>
+									  </div>
+									</div>
+							  </div>
+							  <a class="carousel-control-prev" href="#demo" data-slide="prev">
+								<span class="carousel-control-prev-icon"></span>
+							  </a>
+							  <a class="carousel-control-next" href="#demo" data-slide="next">
+								<span class="carousel-control-next-icon"></span>
+							  </a>
+                            </div>
+
+
+							<div class="spec_offer text-center"><a href="#">Special Offer</a></div>
+						</div>
+<!--
+						<div class="destination_content">
+							<div class="destination_title"><a href="destinations.html">Owner Name : {{i.Owner_Name}}</a></div>
+							<p class="text-muted">House Type : {{i.House_type}}</p>
+							<p class="text-muted">Location : {{i.city}}</p>
+							<div class="destination_subtitle"><p>{{i.House_description}}</p></div>
+							<div class="destination_price">{{i.Price}} Rs / Month</div>
+						</div>  ----->
+						<hr>
+						<br>
+					</div>
+					{% endfor %}
+
+					<!-- Destination -->
+				</div>
+
+			</div>
+
+		</div><br><br>
+
+		<div class="row mb-5">
+			{% for i in Detail %}
+
+			 <div class="col-lg-6 col-md-6 col-12">
+				 <h2>House short Clip</h2>
+				<video class="video-center" width="450" height="250" controls>
+				<source src="{{i.House_video.url}}" type='video/mp4' >
+				Your browser does not support the video tag.
+				</video>
+             </div>
+			<div class="col-lg-6 col-md-6 col-12">
+				<h2>State : {{i.state}}  <br>       City : {{i.city}}</h2>
+				<h3>For further details contact {{i.phone_no}}</h3>
+
+			<!--	<div class="destination_price" style="align:center;">Mail Us : {{i.user.Profile.email}}</div> -->
+			</div>
+			<div>
+				<br>
+				<br>
+			</div><br><br>
+
+			{% endfor %}
+		</div>
+		{% for i in Detail %}
+		<div class="col-sm-6 offset-sm-2">
+             <h2>Visit on Google Map ---> <a href="{{i.House_Location_link}}" class="fa fa-google"></a></h2>
+		</div>
+		{% endfor %}
+	</div>
+
+</div>
+<!------------crousel strt--------------->
+
+
+<!---------->
+<!-- News --
+
+	<div class="news" id="news">
+		<div class="container">
+			<div class="row">
+				<div class="col-xl-8">
+					<div class="news_container">
+						{% for post_text in post_texts %}
+						<!-- News Post -->
+						<div class="news_post d-flex flex-md-row flex-column align-items-start justify-content-start">
+							<div class="news_post_image"><img src="{{post_text.img.url}}" alt=""></div>
+							<div class="news_post_content">
+								<div class="news_post_date d-flex flex-row align-items-end justify-content-start">
+									<div>{{post_text.day}}</div>
+									<div>{{post_text.month}}</div>
+								</div>
+								<div class="news_post_title"><a href="#">{{post_text.quotation}}</a></div>
+								<div class="news_post_category">
+									<ul>
+										<li><a href="#">{{post_text.idoms}}</a></li>
+									</ul>
+								</div>
+								<div class="news_post_text">
+									<p>{{post_text.descrip}}</p>
+								</div>
+							</div>
+						</div>
+                        {% endfor %}
+						<!-- News Post -->
+
+
+					</div>
+				</div>
+
+				<!-- News Sidebar -->
+
+			</div>
+		</div>
+	</div>
+
+	<!-- Footer -->
+<!--	<h1>The video element</h1>
+<video width="320" height="240" controls>
+	<source src="{% static 'WhatsApp Video 2020-03-19 at 12.46.32 PM.mp4' %}" type="video/mp4">
+	Your browser does not support the video tag.
+</video>
+<p><b>Note:</b> The autoplay attribute does not work on some mobile devices.</p><br>
+	<div class="fb-comments" data-href="http://127.0.0.1:8000/" data-width="10 " data-numposts="0"></div>
+</div>
+	<!-- Testimonials -->
+<!-------------------------------------->
+
+	<!-- News --
+
+	<div class="news" id="news">
+		<div class="container">
+			<div class="row">
+				<div class="col-xl-8">
+					<div class="news_container">
+						{% for post_text in post_texts %}
+						<-- News Post --
+						<div class="news_post d-flex flex-md-row flex-column align-items-start justify-content-start">
+							<div class="news_post_image"><img src="{{post_text.img.url}}" alt=""></div>
+							<div class="news_post_content">
+								<div class="news_post_date d-flex flex-row align-items-end justify-content-start">
+									<div>{{post_text.day}}</div>
+									<div>{{post_text.month}}</div>
+								</div>
+								<div class="news_post_title"><a href="#">{{post_text.quotation}}</a></div>
+								<div class="news_post_category">
+									<ul>
+										<li><a href="#">{{post_text.idoms}}</a></li>
+									</ul>
+								</div>
+								<div class="news_post_text">
+									<p>{{post_text.descrip}}</p>
+								</div>
+							</div>
+						</div>
+                        {% endfor %}
+						<!-- News Post --
+
+
+					</div>
+				</div>
+
+				<!-- News Sidebar --
+				<div class="col-xl-4">
+					<div class="travello">
+						<div class="background_image" style="background-image:url({% static 'images/travello.jpg' %})"></div>
+						<div class="travello_content">
+							<div class="travello_content_inner">
+								<div></div>
+								<div></div>
+							</div>
+						</div>
+						<div class="travello_container">
+							<a href="#">
+								<div class="d-flex flex-column align-items-center justify-content-end">
+									<span class="travello_title">Get a 20% Discount</span>
+									<span class="travello_subtitle">Buy Your Vacation Online Now</span>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Footer -->
+
+	<footer class="footer">
+		<div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="{% static 'images/RoomHotel.jpg' %}" data-speed="0.8"></div>
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<div class="newsletter">
+						<div class="newsletter_title_container text-center">
+							<div class="newsletter_title">Subscribe Us to Get Notification about Beautiful Flats on Sale</div>
+							<div class="newsletter_subtitle">Join our database NOW!</div>
+						</div>
+						<div class="newsletter_form_container">
+							<form action="#" class="newsletter_form d-flex flex-md-row flex-column align-items-start justify-content-between" id="newsletter_form">
+								<div class="d-flex flex-md-row flex-column align-items-start justify-content-between">
+									<div><input type="text" class="newsletter_input newsletter_input_name" id="newsletter_input_name" placeholder="Name" required="required"><div class="input_border"></div></div>
+									<div><input type="email" class="newsletter_input newsletter_input_email" id="newsletter_input_email" placeholder="Your e-mail" required="required"><div class="input_border"></div></div>
+								</div>
+								<div><button class="newsletter_button">subscribe</button></div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row footer_contact_row">
+				<div class="col-xl-10 offset-xl-1">
+					<div class="row">
+
+						<!-- Footer Contact Item -->
+						<div class="col-xl-4 footer_contact_col">
+							<div class="footer_contact_item d-flex flex-column align-items-center justify-content-start text-center">
+								<div class="footer_contact_icon"><img src="{% static 'images/sign.svg' %}" alt=""></div>
+								<div class="footer_contact_title">give us a call</div>
+								<div class="footer_contact_list">
+									<ul>
+										<li>Mail Us : roomonrent@book.com </li>
+										<li>Mobile:  +91 8340312640 </li>
+									</ul>
+								</div>
+							</div>
+						</div>
+
+						<!-- Footer Contact Item -->
+						<div class="col-xl-4 footer_contact_col">
+							<div class="footer_contact_item d-flex flex-column align-items-center justify-content-start text-center">
+								<div class="footer_contact_icon"><img src="{% static 'images/trekking.svg' %}" alt=""></div>
+								<div class="footer_contact_title">come & drop by</div>
+								<div class="footer_contact_list">
+									<ul style="max-width:190px">
+										<li>Chaibasa nimdih near sani mandir</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+
+						<!-- Footer Contact Item -->
+						<div class="col-xl-4 footer_contact_col">
+							<div class="footer_contact_item d-flex flex-column align-items-center justify-content-start text-center">
+								<div class="footer_contact_icon"><img src="{% static 'images/around.svg' %}" alt=""></div>
+								<div class="footer_contact_title">send us a message</div>
+								<div class="footer_contact_list">
+									<ul>
+<!--										<li>youremail@gmail.com</li>-->
+										<li>roomonrent@book.com</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</footer>
+</div>
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'styles/bootstrap4/popper.js' %}"></script>
+<script src="{% static 'styles/bootstrap4/bootstrap.min.js' %}"></script>
+<script src="{% static 'plugins/OwlCarousel2-2.2.1/owl.carousel.js' %}"></script>
+<script src="{% static 'plugins/Isotope/isotope.pkgd.min.js' %}"></script>
+<script src="{% static 'plugins/scrollTo/jquery.scrollTo.min.js' %}"></script>
+<script src="{% static 'plugins/easing/easing.js' %}"></script>
+<script src="{% static 'plugins/parallax-js-master/parallax.min.js' %}"></script>
+<script src="{% static 'js/custom.js' %}"></script>
+
+</body>
+</html>

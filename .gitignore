@@ -1,3 +1,4 @@
 .idea
 .env_sample
 venv
+.env

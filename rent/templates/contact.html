@@ -1,0 +1,244 @@
+{% extends 'base2.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+	.contact-form.wthree {
+    width: 80%;
+    margin: 0 auto;
+    padding: 40px;
+    -webkit-box-shadow: 3px 3px 13px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow:3px 3px 13px rgba(0, 0, 0, 0.5);
+    box-shadow: 3px 3px 13px rgba(0, 0, 0, 0.5);
+}
+.contact input[type="text"], .contact input[type="email"], .contact textarea  {
+    width: 100%;
+    color: #000;
+    background: none;
+    outline: none;
+    font-size: 15px;
+    padding: 13px 12px;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    border: solid 1px #ccc;
+}
+.contact textarea {
+    min-height: 12em;
+    resize: none;
+}
+.contact input[type="submit"] {
+    outline: none;
+    color: #fff;
+    padding: 10px 42px;
+    font-size: 15px;
+    letter-spacing: 1px;
+    margin: 1em 0 0 0;
+    -webkit-appearance: none;
+    background: #FF5722;
+    border: 2px solid #FF5722;
+    -webkit-transition: 0.5s all;
+    -moz-transition: 0.5s all;
+    transition: 0.5s all;
+}
+.contact  input[type="submit"]:hover {
+    background: none;
+    color: #FF5722;
+}
+.contact::-webkit-input-placeholder {
+	color:#999 !important;
+}
+.contact:-moz-placeholder { /* Firefox 18- */
+	color:#999 !important;
+}
+.contact::-moz-placeholder {  /* Firefox 19+ */
+	color:#999 !important;
+}
+.contact:-ms-input-placeholder {
+	color:#999 !important;
+}
+.contact-right h4 {
+    font-size: 30px;
+    color: #FF5722;
+    letter-spacing: 1px;
+}
+.contact-text {
+    padding: 3em;
+}
+.contact-right.wthree {
+    margin-top: 70px;
+}
+.contact-text p {
+    margin-top: 20px;
+    text-align: left;
+}
+.contact-text p a{
+    color:#FF5722;
+	-webkit-transition: 0.5s all;
+    -moz-transition: 0.5s all;
+	transition: 0.5s all;
+}
+.contact-text p a:hover{
+    color:#999;
+}
+.contact-text p i.fa {
+    margin-right: 10px;
+    color: #1accfd;
+}
+.map iframe {
+    width: 100%;
+    min-height: 400px;
+    border: 8px solid #FF5722;
+    padding: 10px;
+    display: inherit;
+}
+/*-- //contact --*/
+</style>
+	<!-- page -->
+	<!-- //page -->
+	<!-- contact page -->
+<br><br><br><br>
+	<div class="contact-w3l">
+		<div class="container">
+			<!-- tittle heading -->
+			<h3 class="tittle-w3l text-center">Contact Us
+				<span class="heading-style">
+					<i></i>
+					<i></i>
+					<i></i>
+				</span>
+			</h3>
+			<!-- //tittle heading -->
+			<!-- contact -->
+			<div class="contact agileits">
+				<div class="contact-agileinfo">
+					<div class="contact-form wthree">
+						<form id="form" action="#" method="post" enctype="multipart/form-data"> {% csrf_token %}
+							<div class="">
+								<input type="text" name="name" id="name" placeholder="Name" required="">
+							</div>
+							<div class="">
+								<input class="text" type="text" name="subject" id="subject" placeholder="Subject" required="">
+							</div>
+							<div class="">
+								<input class="email" type="email" name="email" id="email" placeholder="Email" required="">
+							</div>
+							<div class="">
+								<textarea placeholder="Message" name="message" id="message" required=""></textarea>
+							</div>
+							<input id="form-button" type="submit" value="Submit">
+						</form>
+					</div>
+					<div class="contact-right wthree">
+						<div class="col-xs-7 contact-text w3-agileits">
+							<h4>GET IN TOUCH :</h4>
+							<p>
+								<i class="fa fa-map-marker"></i>  Madhupur, Deoghar Subdivisional Hospital, Jharkhand.</p>
+							<p>
+								<i class="fa fa-phone"></i> Contact : 8340312640</p>
+
+							<p>
+								<i class="fa fa-envelope-o"></i> Email :
+								<a href="mailto:example@mail.com">sachinkumar72353@gmail.com</a>
+							</p>
+						</div>
+						<div class="clearfix"> </div>
+					</div>
+				</div>
+			</div>
+			<!-- //contact -->
+		</div>
+	</div>
+	<!-- map -->
+	<div class="map w3layouts">
+		 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3637.542210742862!2d86.6485624143002!3d24.257785184341717!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f137258937d937%3A0xf1e9ec29ce2b955f!2sSadar%20Hospital!5e0!3m2!1sen!2sin!4v1587880750020!5m2!1sen!2sin" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+	</div>
+	<!-- //map -->
+   <script type="text/javascript">
+
+		var user = '{{request.user}}'
+		var csrftoken = undefined;
+		function getCookie(name) {
+             var cookieValue = null;
+             if (document.cookie && document.cookie !== '') {
+                 var cookies = document.cookie.split(';');
+                 for (var i = 0; i < cookies.length; i++) {
+                     var cookie = cookies[i].trim();
+                     // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                           break;
+                    }
+                 }
+             }
+             return cookieValue;
+
+        }
+        document.addEventListener("DOMContentLoaded", function(event) {
+
+			  csrftoken = getCookie('csrftoken');
+		  });
+
+
+        console.log(csrftoken)
+        console.log(csrftoken)
+
+		var form = document.getElementById('form')
+		form.addEventListener('submit', function(e){
+	    	e.preventDefault()
+	    	console.log('Contact Form Hitted')
+	    	document.getElementById('form-button').classList.add("hidden");
+
+	    })
+
+	    document.getElementById('form-button').addEventListener('click', function(e){
+	    	submitFormData()
+
+	    })
+
+	    function submitFormData(){
+	    	console.log('submit button clicked')
+            var contactData = {
+				'name':null,
+				'email':null,
+				'subject':null,
+				'message':null,
+			}
+
+
+                contactData.name = form.name.value
+	    		contactData.email = form.email.value
+	    		contactData.subject = form.subject.value
+	    		contactData.message = form.message.value
+
+
+
+	    	console.log('Shipping Info:',contactData)
+
+
+			 url_link = window.location.href;
+			 url_link = url_link.slice(7)
+			 indx = url_link.indexOf("/")
+			 url_link = url_link.slice(0,indx)
+
+			var url = "http://"+url_link+"/api/Contactus"
+	    	fetch(url, {
+	    		method:'POST',
+	    		headers:{
+	    			'Content-Type':'applicaiton/json',
+	    			'X-CSRFToken':csrftoken,
+	    		},
+	    		body:JSON.stringify(contactData),
+
+	    	})
+	    	.then((response) => response.json())
+	    	.then((data) => {
+				console.log('Success:', data);
+				alert('message sent');
+
+				window.location.href = "/rent/home"
+
+			})
+	    }
+	</script>
+
+	{% endblock %}

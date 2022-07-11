@@ -1,0 +1,578 @@
+{% extends 'base2.html' %}
+{% load static %}
+{% static "images" as baseURL %}
+
+{% block content %}
+
+  <!-- ======= Intro Section ======= -->
+  <div class="intro intro-carousel">
+    <div id="carousel" class="owl-carousel owl-theme">
+      <div class="carousel-item-a intro-item bg-image img-fluid" style="background-image: url({% static 'assets11/img/slide-1.jpg' %})">
+        <div class="overlay overlay-a"></div>
+        <div class="intro-content display-table">
+          <div class="table-cell">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-8">
+                  <div class="intro-body">
+<!--                    <p class="intro-title-top">Doral, Florida-->
+<!--                      <br> 78345-->
+<!--                    </p>-->
+                    <h2 class="intro-title mb-4">
+                      <span class="color-b">Looking For</span>
+                      Rooms search here
+                    </h2>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item-a intro-item bg-image img-fluid" style="background-image: url({% static 'images/housepic.jpg' %})">
+        <div class="overlay overlay-a"></div>
+        <div class="intro-content display-table">
+          <div class="table-cell">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-8">
+                  <div class="intro-body">
+<!--                    <p class="intro-title-top">Doral, Florida-->
+<!--                      <br> 78345-->
+<!--                    </p>-->
+                    <h2 class="intro-title mb-4">
+                      <span class="color-b">Get </span> Renters Now<br>
+                       Give Your Flats on Rent
+                    </h2>
+                    <a href="/rent/UploadHouseDetail" onclick="CheckPremium()"> <button type="button"  class="btn btn-primary">Give Your Flats on Rent</button> </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item-a intro-item bg-image img-fluid" style="background-image: url({% static 'images/flat.jpg' %})">
+        <div class="overlay overlay-a"></div>
+        <div class="intro-content display-table">
+          <div class="table-cell">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-8">
+                  <div class="intro-body">
+<!--                    <p class="intro-title-top">Doral, Florida-->
+<!--                      <br> 78345-->
+<!--                    </p>-->
+                    <h2 class="intro-title mb-4">
+                      <span class="color-b">Get</span> Register
+                      <br> yourself Add your Flats Here
+                    </h2>
+
+                   <a href="/rent/UploadHouseDetail"> <button type="button" onclick="CheckPremium()" class="btn btn-primary">Register Now</button> </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- End Intro Section -->
+
+
+  <!-- Search -->
+
+  <main id="main" style="background: linear-gradient(to right, #e96443, #904e95);">
+
+    <!-- ======= Services Section ======= -->
+    <section class="section-services section-t8">
+      <div class="container">
+        <div class="home_search">
+          <div class="container">
+              <div class="row">
+                  <div class="col">
+                      <div class="home_search_container">
+                            <div class="home_search_title">Search for Flat or Room on Rent</div>
+                          <div class="home_search_content">
+                              <form action="" class="home_search_form" id="indexForm" enctype="multipart/form-data" method="post" data-courses-url="/rent/load-dists">
+                                   {% csrf_token %}
+                                  <div class="d-flex flex-lg-row flex-column align-items-start justify-content-lg-between justify-content-start" >
+
+                                      <select name="state" id="state" class="search_input search_input_1" required="required" >
+                                          <option>--State--</option>
+                                          {% for i in state %}
+                                           <option value="{{i.id}}">{{i.name}}</option>
+                                          {% endfor %}
+                                      </select>
+
+                                     <select name="district" id="district" class="search_input search_input_1" required="required" data-courses1-url="/rent/load-city">
+                                          <option>--District--</option>
+
+                                      </select>
+
+                                    <select name="city" id="city" class="search_input search_input_1" required="required"  data-courses2-url="/rent/load-location">
+                                          <option>--City--</option>
+
+                                      </select>
+                                    <select name="location" id="location" class="search_input search_input_1" required="required">
+                                          <option>--Location--</option>
+
+                                      </select>
+
+                                    <select name = "selectFor" class="search_input search_input_1" required="required">
+                                          <option>--Students--</option>
+                                          <option>Couple</option>
+                                          <option>Bachlor(Male)</option>
+                                          <option>Bachlor(Female)</option>
+                                          <option>With Family </option>
+                                      </select>
+
+                                      <select name = "House_type" class="search_input search_input_1" required="required">
+                                          <option>--House Type--</option>
+                                          <option>2BHK</option>
+                                          <option>3BHK</option>
+                                          <option>SINGLE</option>
+                                      </select>
+
+                                      <button class="home_search_button">search</button>
+                                  </div>
+                              </form>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="title-wrap d-flex justify-content-between">
+              <div class="title-box">
+                <h2 class="title-a">Our Services</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br><br><br><br>
+        <div class="row">
+          <br><br>
+          <div class="col-md-4">
+
+            <div class="card-box-c foo">
+              <div class="card-header-c d-flex">
+                <div class="card-title-c align-self-center">
+
+                </div><br><br>
+                <div class="card-img-d img-fluid">
+                  <img src="{% static 'assets11/img/RoomonrENT.jpg' %}" alt="" class="img-d img-fluid"  style="width:450px; height:400px">
+                </div><br>
+              </div>
+              <div class="title-box">
+                <h2 class="title-a">Room On Rent</h2>
+              </div>
+              <div class="card-footer-c">
+                <a href="#" class="link-c link-icon align-center">GET NOW
+                  <span class="ion-ios-arrow-forward"></span>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+
+            <div class="card-box-c foo">
+              <div class="card-header-c d-flex">
+                <div class="card-title-c align-self-center">
+
+                </div><br><br>
+                <div class="card-img-d img-fluid">
+                  <img src="{% static 'assets11/img/nut1.png' %}" alt="" class="img-d img-fluid"  style="width:450px; height:400px" >
+                </div><br>
+              </div>
+              <div class="title-box">
+                <h2 class="title-a">Food Delivery</h2>
+              </div>
+              <div class="card-footer-c">
+                <a href="#" class="link-c link-icon align-center">GET NOW
+                  <span class="ion-ios-arrow-forward"></span>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+
+            <div class="card-box-c foo">
+              <div class="card-header-c d-flex">
+                <div class="card-img-d img-fluid">
+                  <img src="{{gallery.0.img.url}}" alt="" class="img-d img-fluid"  style="width:450px; height:400px">
+                </div>
+                <div class="card-title-c align-self-center">
+
+                </div>
+              </div>
+              <div class="card-body-c">
+                <div class="title-box">
+                <h2 class="title-a">Providing Renters</h2>
+              </div>
+              </div>
+              <div class="card-footer-c">
+                <a href="#" class="link-c link-icon">Read more
+                  <span class="ion-ios-arrow-forward"></span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section><!-- End Services Section -->
+
+    <!-- ======= Latest Properties Section ======= -->
+    <section class="section-property section-t8">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="title-wrap d-flex justify-content-between">
+              <div class="title-box">
+                <h2 class="title-a"> Available Flats or Rooms on Rent</h2>
+              </div>
+              <div class="title-link">
+                <a href="/rent/allproperty">All Flats Rooms
+                  <span class="ion-ios-arrow-forward"></span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="property-carousel" class="owl-carousel owl-theme">
+          {% for i in RoomDetail %}
+          <div class="carousel-item-b">
+            <div class="card-box-a card-shadow">
+              <div class="img-box-a">
+                <img src="{{i.Building_img1}}" alt="" class="img-d img-fluid" style="width:550px; height:450px">
+              </div>
+              <div class="card-overlay">
+                <div class="card-overlay-a-content">
+                  <div class="card-header-a">
+                    <h2 class="card-title-a">
+                      <a href="#">{{i.Owner_Name}}
+                        <br /> City : {{i.city}}</a>
+                    </h2>
+                  </div>
+                  <div class="card-body-a">
+                    <div class="price-box d-flex">
+                      <span class="price-a">rent | {{i.Price}} Rs Monthly </span>
+                    </div>
+                    <a href="/rent/Detail/{{i.id}}" class="link-a">Click here to view
+                      <span class="ion-ios-arrow-forward"></span>
+                    </a>
+                  </div>
+                  <div class="card-footer-a">
+                    <ul class="card-info d-flex justify-content-around">
+                      <li>
+                        <h4 class="card-info-title">Allowed For</h4>
+                        <span>{{i.AllowedFor}}
+
+                        </span>
+                      </li>
+                      <li>
+                        <h4 class="card-info-title">House Type</h4>
+                        <span>{{i.House_type}}</span>
+                      </li>
+                      <li>
+                        <h4 class="card-info-title">City</h4>
+                        <span>{{i.city}}</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section><!-- End Latest Properties Section -->
+
+    <!-- ======= Latest News Section ======= -->
+    <section class="section-news section-t8">
+
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="title-wrap d-flex justify-content-between">
+              <div class="title-box">
+                <h2 class="title-a"> Mess For Food Delivery </h2>
+              </div>
+              <div class="title-link">
+                <a href="/rent/allmess">All Mess Canteen
+                  <span class="ion-ios-arrow-forward"></span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="new-carousel" class="owl-carousel owl-theme">
+          {% for i in Resto %}
+          <div class="carousel-item-c">
+            <div class="card-box-b card-shadow news-box">
+              {% if i.Mess_img != None %}
+
+              <div class="img-box-b">
+                <img src="{{i.Mess_imgURL}}" alt="" class="img-b img-fluid" style="width:550px; height:450px">
+              </div>
+
+              {% else %}
+
+              <div class="img-box-b">
+                <img src="{% static 'assets11/img/post-5.jpg' %}" alt="" class="img-b img-fluid"  style="width:550px; height:450px">
+              </div>
+
+              {% endif %}
+
+              <div class="card-overlay">
+                <div class="card-header-b">
+                  <div class="card-category-b">
+                    <a href="#" class="category-b">Food</a>
+                  </div>
+                  <div class="card-title-b">
+                    <h2 class="title-2">
+                      <a href="blog-single.html">{{i.Mess_name}}
+                        </a>
+                    </h2>
+                  </div>
+                  <div class="card-date">
+                    <span class="date-b">{{i.city}}</span>
+                  </div>
+                  <br><a href="/rent/Single_view_mess/{{i.id}}" class="category-b" style="color:blue">Join Now</a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+    </section><!-- End Latest new----------->
+
+    <!-- ======= Agents Section ======= -->
+    <section class="section-agents section-t8">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="title-wrap d-flex justify-content-between">
+              <div class="title-box">
+                <h2 class="title-a">Developers Team</h2>
+              </div>
+<!--              <div class="title-link">-->
+<!--                <a href="agents-grid.html">All Agents-->
+<!--                  <span class="ion-ios-arrow-forward"></span>-->
+<!--                </a>-->
+<!--              </div>-->
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          {% for i in gallery %}
+          <div class="col-md-4">
+            <div class="card-box-d">
+              <div class="card-img-d">
+                <img src="{{i.img.url}}" alt="" class="img-d img-fluid"  style="width:550px; height:350px">
+              </div>
+              <div class="card-overlay card-overlay-hover">
+                <div class="card-header-d">
+                  <div class="card-title-d align-self-center">
+                    <h3 class="title-d">
+                      <a href="agent-single.html" class="link-two">{{i.img_name}}
+                        <br></a>
+                    </h3>
+                  </div>
+                </div>
+                <div class="card-body-d">
+                  <p class="content-d color-text-a">
+                    {{i.des}}
+                  </p>
+                  <div class="info-agents color-a">
+                    <p>
+                      <strong>Phone: </strong> +54 356 945234
+                    </p>
+                    <p>
+                      <strong>Email: </strong> agents@GharKhojoIndia.com
+                    </p>
+                  </div>
+                </div>
+                <div class="card-footer-d">
+                  <div class="socials-footer d-flex justify-content-center">
+                    <ul class="list-inline">
+                      <li class="list-inline-item">
+                        <a href="#" class="link-one">
+                          <i class="fa fa-facebook" aria-hidden="true"></i>
+                        </a>
+                      </li>
+                      <li class="list-inline-item">
+                        <a href="#" class="link-one">
+                          <i class="fa fa-twitter" aria-hidden="true"></i>
+                        </a>
+                      </li>
+                      <li class="list-inline-item">
+                        <a href="#" class="link-one">
+                          <i class="fa fa-instagram" aria-hidden="true"></i>
+                        </a>
+                      </li>
+                      <li class="list-inline-item">
+                        <a href="#" class="link-one">
+                          <i class="fa fa-pinterest-p" aria-hidden="true"></i>
+                        </a>
+                      </li>
+                      <li class="list-inline-item">
+                        <a href="#" class="link-one">
+                          <i class="fa fa-dribbble" aria-hidden="true"></i>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section><!-- End Agents Section -->
+
+
+
+
+
+
+    <!-- ======= Testimonials Section ======= -->
+    <section class="section-testimonials section-t8 nav-arrow-a">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="title-wrap d-flex justify-content-between">
+              <div class="title-box">
+                <h2 class="title-a">Testimonials</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="testimonial-carousel" class="owl-carousel owl-arrow">
+          <div class="carousel-item-a">
+            <div class="testimonials-box">
+              <div class="row">
+                <div class="col-sm-12 col-md-6">
+                  <div class="testimonial-img">
+                    <img src="{% static 'assets11/img/testimonial-1.jpg' %}" alt="" class="img-fluid"  style="width:550px; height:450px">
+                  </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                  <div class="testimonial-ico">
+                    <span class="ion-ios-quote"></span>
+                  </div>
+                  <div class="testimonials-content">
+                    <p class="testimonial-text">
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis, cupiditate ea nam praesentium
+                      debitis hic ber quibusdam
+                      voluptatibus officia expedita corpori.
+                    </p>
+                  </div>
+                  <div class="testimonial-author-box">
+                    <img src="{% static 'assets11/img/mini-testimonial-1.jpg' %}" alt="" class="testimonial-avatar">
+                    <h5 class="testimonial-author">Albert & Erika</h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item-a">
+            <div class="testimonials-box">
+              <div class="row">
+                <div class="col-sm-12 col-md-6">
+                  <div class="testimonial-img">
+                    <img src="{% static 'assets11/img/testimonial-2.jpg' %}" alt="" class="img-fluid">
+                  </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                  <div class="testimonial-ico">
+                    <span class="ion-ios-quote"></span>
+                  </div>
+                  <div class="testimonials-content">
+                    <p class="testimonial-text">
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis, cupiditate ea nam praesentium
+                      debitis hic ber quibusdam
+                      voluptatibus officia expedita corpori.
+                    </p>
+                  </div>
+                  <div class="testimonial-author-box">
+                    <img src="{% static 'assets11/img/mini-testimonial-2.jpg' %}" alt="" class="testimonial-avatar">
+                    <h5 class="testimonial-author">Pablo & Emma</h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section><!-- End Testimonials Section -->
+
+  </main><!-- End #main -->
+
+<!-------- script start ------->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script>
+    $("#state").change(function () {
+      var url = $("#indexForm").attr("data-courses-url");  // get the url of the `load_courses` view
+      var programmingId = $(this).val();  // get the selected programming ID from the HTML input
+
+
+      $.ajax({                       // initialize an AJAX request
+        url: url,                    // set the url of the request (= localhost:8000/load-courses/)
+        data: {
+          'state': programmingId       // add the programming id to the GET parameters
+        },
+        success: function (data) {   // `data` is the return of the `load_courses` view function
+          $("#district").html(data);  // replace the contents of the course input with the data that came from the server
+        }
+      });
+
+    });
+    $("#district").change(function () {
+    var url = $("#district").attr("data-courses1-url");  // get the url of the `load_courses` view
+    var stateId = $(this).val();  // get the selected programming ID from the HTML input
+
+    $.ajax({                       // initialize an AJAX request
+      url: url,                    // set the url of the request (= localhost:8000/load-courses/)
+      data: {
+        'dist': stateId       // add the programming id to the GET parameters
+      },
+      success: function (data) {   // `data` is the return of the `load_courses` view function
+<!--          document.write("success entered into district ")-->
+        $("#city").html(data);  // replace the contents of the course input with the data that came from the server
+      }
+    });
+
+    });
+
+    $("#city").change(function () {
+    var url = $("#city").attr("data-courses2-url");  // get the url of the `load_courses` view
+    var distId = $(this).val();  // get the selected programming ID from the HTML input
+
+    $.ajax({                       // initialize an AJAX request
+      url: url,                    // set the url of the request (= localhost:8000/load-courses/)
+      data: {
+        'city': distId       // add the programming id to the GET parameters
+      },
+      success: function (data) {   // `data` is the return of the `load_courses` view function
+<!--          document.write("success entered into district ")-->
+        $("#location").html(data);  // replace the contents of the course input with the data that came from the server
+      }
+    });
+
+    });
+
+
+
+  </script>
+
+{% endblock %}
