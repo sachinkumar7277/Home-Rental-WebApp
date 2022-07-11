@@ -1,0 +1,313 @@
+{% extends 'base2.html' %}
+{% load static %}
+{% static "images" as baseURL %}
+
+{% block content %}
+
+<style>
+    .profile-head {
+    transform: translateY(5rem)
+}
+
+.cover {
+    background-image: url(https://images.unsplash.com/photo-1530305408560-82d13781b33a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1352&q=80);
+    background-size: cover;
+    background-repeat: no-repeat
+}
+
+body {
+    background: #654ea3;
+    background: linear-gradient(to right, #e96443, #904e95);
+    min-height: 100vh;
+    overflow-x: hidden
+}
+</style>
+
+
+<div class="row py-5 px-4">
+    <div class="col-md-10 mx-auto">
+        <!-- Profile widget -->
+        {% for pro in users %}
+        <div class="bg-white shadow rounded overflow-hidden">
+             <div class="px-4 pt-0 pb-4 cover">
+                <div class="media align-items-end profile-head">
+                    {% if pro.Profile_pic %}
+                    <div class="profile mr-3"><img src="{{pro.Profile_pic.url}}" alt="..." width="130" class="rounded mb-2 img-thumbnail"><a href="#" class="btn btn-outline-dark btn-sm btn-block">Edit profile</a></div>
+                    {% else %}
+                    <div class="profile mr-3"><img src="{% static 'images/blank-profile.png' %}" alt="..." width="130" class="rounded mb-2 img-thumbnail"><a href="#" class="btn btn-outline-dark btn-sm btn-block">Edit profile</a></div>
+                    {% endif %}
+                    <div class="media-body mb-5 text-white">
+                        <h4 class="mt-0 mb-0" style="color:white;">{{pro.Fullname}}</h4>
+                        <p class="small mb-4"> <i class="fas fa-map-marker-alt mr-2"></i>{{pro.address}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-light p-4 d-flex justify-content-end text-center">
+                <ul class="list-inline mb-0">
+                    <li class="list-inline-item">
+                        <h5 class="font-weight-bold mb-0 d-block">215</h5><small class="text-muted"> <i class="fas fa-image mr-1"></i>Photos</small>
+                    </li>
+                    <li class="list-inline-item">
+                        <h5 class="font-weight-bold mb-0 d-block">745</h5><small class="text-muted"> <i class="fas fa-user mr-1"></i>Followers</small>
+                    </li>
+                    <li class="list-inline-item">
+                        <h5 class="font-weight-bold mb-0 d-block">340</h5><small class="text-muted"> <i class="fas fa-user mr-1"></i>Following</small>
+                    </li>
+                </ul>
+            </div>
+            <div class="px-4 py-3">
+<!--                <div class="p-4 rounded shadow-sm bg-light">-->
+<!--                    <p class="font-italic mb-0">Web Developer</p>-->
+<!--                    <p class="font-italic mb-0">Lives in New York</p>-->
+<!--                    <p class="font-italic mb-0">Photographer</p>-->
+<!--                </div>-->
+
+                    <div>
+                      <h5 class="mb-2 ">About</h5>
+                      <div class="card mb-3">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <h6 class="mb-0">Full Name</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                              {{pro.Fullname}}
+                            </div>
+                          </div>
+                          <hr>
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <h6 class="mb-0">Email</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                             {{pro.Email}}
+                            </div>
+                          </div>
+                          <hr>
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <h6 class="mb-0">Phone</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                              {{pro.phone_no}}
+                            </div>
+                          </div>
+                          <hr>
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <h6 class="mb-0">Date of Birth</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                             {{pro.date_of_birth}}
+                            </div>
+                          </div>
+                          <hr>
+                          <div class="row">
+                            <div class="d-flex align-items-center justify-content-between col-sm-12">
+                              <a class="btn-sm mr-2 btn-info " target="__blank" href="/api/profile/update/">Update Profile</a>
+                              <a class="btn-sm btn-info " target="__blank" style="float:right" href="" data-toggle="modal" data-target="#ChngPassword">Change Password</a>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+            </div>
+            <div class="py-4 px-4">
+                    <section class="property-grid grid">
+                      <div class="container">
+                        <div class="row">
+<!--                          <div class="col-sm-12">-->
+<!--                            <div class="grid-option">-->
+<!--                              <form>-->
+<!--                                <select class="custom-select">-->
+<!--                                  <option selected>All</option>-->
+<!--                                  <option value="1">New to Old</option>-->
+<!--                                  <option value="2">For Rent</option>-->
+<!--                                  <option value="3">For Sale</option>-->
+<!--                                </select>-->
+<!--                              </form>-->
+<!--                            </div>-->
+<!--                          </div>-->
+                          {% for i in data %}
+                          <div class="col-md-4">
+                            <div class="card-box-a card-shadow">
+                              <div class="img-box-a">
+                                  <a href="/rent/Detail/{{i.id}}"><img src="{{i.House_imgURL}}" alt="" class="img-a img-fluid"  style="width:850px; height:450px" ></a>
+                              </div>
+                              <div class="card-overlay">
+                                <div class="card-overlay-a-content">
+                                  <div class="card-header-a">
+                                    <h2 class="card-title-a">
+                                      <a href="#">{{i.Owner_Name}}
+                                        <br /> Location : {{i.city}}</a>
+                                    </h2>
+                                  </div>
+                                  <div class="card-body-a">
+                                    <div class="price-box d-flex">
+                                      <span class="price-a">rent | {{i.Price}} Rs</span>
+                                    </div>
+                                    <a href="/rent/Detail/{{i.id}}" class="link-a">Click here to view
+                                      <span class="ion-ios-arrow-forward"></span>
+                                    </a>
+                                  </div>
+                                  <div class="card-footer-a">
+                                    <ul class="card-info d-flex justify-content-around">
+                                      <li>
+                                        <h4 class="card-info-title">Allowed For</h4>
+                                        <span>{{i.AllowedFor}}
+                                          <sup>2</sup>
+                                        </span>
+                                      </li>
+                                      <li>
+                                        <h4 class="card-info-title">City</h4>
+                                        <span>{{i.city}}</span>
+                                      </li>
+                                      <li>
+                                        <h4 class="card-info-title">House Type</h4>
+                                        <span>{{i.House_type}}</span>
+                                      </li>
+<!--                                      <li>-->
+<!--                                        <h4 class="card-info-title">Garages</h4>-->
+<!--                                        <span>1</span>-->
+<!--                                      </li>-->
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                          </div>
+                          {% endfor %}
+<!--                          <div  class="row">-->
+<!--                          <div class="col-sm-12">-->
+<!--                            <nav class="pagination-a">-->
+<!--                              <ul class="pagination justify-content-end">-->
+<!--                                <li class="page-item disabled">-->
+<!--                                  <a class="page-link" href="#" tabindex="-1">-->
+<!--                                    <span class="ion-ios-arrow-back"></span>-->
+<!--                                  </a>-->
+<!--                                </li>-->
+<!--                                <li class="page-item">-->
+<!--                                  <a class="page-link" href="#">1</a>-->
+<!--                                </li>-->
+<!--                                <li class="page-item active">-->
+<!--                                  <a class="page-link" href="#">2</a>-->
+<!--                                </li>-->
+<!--                                <li class="page-item">-->
+<!--                                  <a class="page-link" href="#">3</a>-->
+<!--                                </li>-->
+<!--                                <li class="page-item next">-->
+<!--                                  <a class="page-link" href="#">-->
+<!--                                    <span class="ion-ios-arrow-forward"></span>-->
+<!--                                  </a>-->
+<!--                                </li>-->
+<!--                              </ul>-->
+<!--                            </nav>-->
+<!--                          </div>-->
+                        </div>
+                      </div>
+                </section><!-- End Property Grid Single-->
+            </div>
+
+<!--            <div class="py-4 px-4">-->
+<!--                <div class="d-flex align-items-center justify-content-between mb-3">-->
+<!--                    <h5 class="mb-0">Recent photos</h5><a href="#" class="btn btn-link text-muted">Show all</a>-->
+<!--                </div>-->
+<!--                <div class="row">-->
+<!--                    <div class="col-lg-6 mb-2 pr-lg-1"><img src="https://images.unsplash.com/photo-1469594292607-7bd90f8d3ba4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80" alt="" class="img-fluid rounded shadow-sm"></div>-->
+<!--                    <div class="col-lg-6 mb-2 pl-lg-1"><img src="https://images.unsplash.com/photo-1493571716545-b559a19edd14?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80" alt="" class="img-fluid rounded shadow-sm"></div>-->
+<!--                    <div class="col-lg-6 pr-lg-1 mb-2"><img src="https://images.unsplash.com/photo-1453791052107-5c843da62d97?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" alt="" class="img-fluid rounded shadow-sm"></div>-->
+<!--                    <div class="col-lg-6 pl-lg-1"><img src="https://images.unsplash.com/photo-1475724017904-b712052c192a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80" alt="" class="img-fluid rounded shadow-sm"></div>-->
+<!--                </div>-->
+<!--            </div>-->
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+<<!--- Change Password  Form --------------->
+  <div class="modal" id="ChngPassword" role="document">
+    <div class="modal-dialog modal-md">
+
+        <div class="modal-body">
+            <div class="modal-content">
+            <div class="form-v4">
+                <div class="page-content">
+                    <div class="form-v4-content">
+
+                        <form class="form-detail" action="#" id="changePwdForm">
+                             {% csrf_token %}
+                            <button type="button" class="close" id="ClosechangePwdModal" data-dismiss="modal">&times;</button>
+                            <h2>CHANGE PASSWORD FORM</h2>
+                            <div class="form-group">
+                                <div class="form-row form-row-1 ">
+                                    <label for="old_password">Old Password</label>
+                                    <input type="password" name="old_password" id="old_password" class="input-text" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-row form-row-1 ">
+                                    <label for="password">New Password</label>
+                                    <input type="password" name="password" id="new_password" class="input-text" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-row form-row-1">
+                                    <label for="comfirm_password">Comfirm Password</label>
+                                    <input type="password" name="comfirm_password" id="comfirm_password" class="input-text" required>
+                                </div>
+                            </div>
+                            <div class="form-row-last">
+                                <input type="submit" onclick="OnPassChange()" name="register" class="register" value="Confirm">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+<!---- End Registration Form -------->
+
+
+<!------script ends -->
+  <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+
+<script type="text/javascript">
+    // just for the demos, avoids form submit
+
+    jQuery.validator.setDefaults({
+        debug: true,
+        success:  function(label){
+            label.attr('id', 'valid');
+        },
+    });
+    $( "#changePwdForm" ).validate({
+        rules: {
+            password: "required",
+            comfirm_password: {
+                equalTo: "#new_password"
+            }
+        },
+        messages: {
+            password: {
+                required: "Please enter a password"
+            },
+            comfirm_password: {
+                required: "Please enter a password",
+                equalTo: "Wrong Password",
+
+            }
+        }
+    });
+</script>
+
+
+{% endblock %}

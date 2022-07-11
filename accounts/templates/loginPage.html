@@ -1,0 +1,152 @@
+{% extends 'base2.html' %}
+{% load static %}
+{% static "images" as baseURL %}
+
+{% block content %}
+<div>
+    <br><br>
+</div>
+<!--- Confirm Reset Password  Form --------------->
+
+<!--    <div class="modal-dialog modal-md">-->
+
+<!--        <div class="modal-body">-->
+<!--            <div class="modal-content">-->
+       <div class="row py-5 px-4">
+          <div class="col-md-10 mx-auto">
+            <div class="form-v4">
+                <div class="page-content">
+                    <div class="form-v4-content">
+                        <form class="form-detail" id="loginPGform">
+                             {% csrf_token %}
+
+                            <h2>LOGIN FORM</h2>
+                            <div class="form-group">
+                                <div class="form-row form-row-1 ">
+                                     <label for="phone">Phone no *</label>
+                                     <input type="tel" class="input-text" id="phne" name="phone" pattern="[0-9]{10}" placeholder="phone number" required="">
+                                </div>
+                            </div>
+
+
+                           <div class="form-group">
+                                <div class="form-row form-row-1 ">
+                                    <label for="password">Password</label>
+                                    <input type="password" name="password" id="paswd" class="input-text" required>
+                                </div>
+                            </div>
+                            <div class="form-checkbox">
+                                <p>Forget password ? <a href="#" class="text" onclick="openReset_Pass_Modal()">click here to reset password</a></p>
+                            </div>
+                            <div class="form-row-last">
+                                <input type="submit" name="Login" class="register" value="Login">
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            </div>
+       </div>
+<!--    </div>-->
+
+<!---- End Confirm reset password Form -------->
+
+
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+
+
+<script type="text/javascript">
+// Login API Call
+
+var csrftoken = undefined;
+function getCookie(name) {
+     var cookieValue = null;
+     if (document.cookie && document.cookie !== '') {
+         var cookies = document.cookie.split(';');
+         for (var i = 0; i < cookies.length; i++) {
+             var cookie = cookies[i].trim();
+             // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                   break;
+            }
+         }
+     }
+     return cookieValue;
+
+}
+document.addEventListener("DOMContentLoaded", function(event) {
+
+      csrftoken = getCookie('csrftoken');
+  });
+
+
+var loginformPg = document.getElementById('loginPGform')
+
+loginformPg.addEventListener('submit', function(e){
+    e.preventDefault()
+    console.log('Clicked on login...')
+
+    loginPg()
+//    document.getElementById('form-button').classList.add("hidden");
+
+})
+var loginformPgData = {
+        'password':null,
+        'phone': null
+    }
+
+var Auth_Token
+
+function loginPg(){
+
+    loginformPgData.password = loginformPg.paswd.value
+    loginformPgData.phone = loginformPg.phne.value
+     url_link = window.location.href;
+     url_link = url_link.slice(7)
+     indx = url_link.indexOf("/")
+     url_link = url_link.slice(0,indx)
+
+    var url = "http://"+url_link+"/api/login"
+    fetch(url, {
+        method:'POST',
+        headers:{
+            'Content-Type':'applicaiton/json',
+            'X-CSRFToken':csrftoken,
+        },
+        body:JSON.stringify(loginformPgData),
+
+    })
+    .then((response) => response.json())
+    .then((data) =>checkstatus(data))
+
+
+
+     function checkstatus(data){
+        console.log(data.status)
+        if (data.status){
+            Auth_Token = data.token
+            localStorage.setItem('Auth_Token',Auth_Token)
+            console.log("ye auth token hai login wala : ",Auth_Token)
+            window.location.href = '{{Render_to}}'
+
+        }
+        else{
+          console.log(data)
+          alert("something went wrong ")
+          window.location.href = "/rent/home"
+        }
+
+     }
+
+
+}
+
+
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,1 @@
+#this is init hai start hone pe jo v file yaha configure hoga wor automaticaly run hoga eska use signal k liye hmne kiya avi tk
