@@ -54,6 +54,7 @@ function verifyPhone(){
 
 
         verifyPhoneData.phone = phoneVerifyform.phone.value
+        verifyPhoneData.email_address = phoneVerifyform.email_address.value
 
 
 
@@ -157,7 +158,7 @@ regform.addEventListener('submit', function(e){
     console.log('Clicked on register ...')
 
      newpass = regform.password.value
-     cnfPass = regform.comfirm_password.value
+     cnfPass = regform.confirm_password.value
 
      if (newpass == cnfPass ){
 

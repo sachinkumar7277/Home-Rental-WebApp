@@ -1,13 +1,14 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import room, State,District,Locations,Temporary,City,Gallerys,Reg_Mess_Restaurent,Temp_Reg_Mess_Restaurent
+from .models import room, State, District, Locations, Temporary, City, Gallerys, Reg_Mess_Restaurent, \
+    Temp_Reg_Mess_Restaurent
 import json
 import requests
-from accounts.models import Profile,User,PremiumPlan
+from accounts.models import Profile, User, PremiumPlan
 from django.core.mail import send_mail
 from django.views.generic import View
 from .mixins import HttpResponseMixin
-from.serializers import RoomUploadUSerializer,RoomUpdateUSerializer,RoomMediaFileUpdateSerializer,RoomSerializer
+from .serializers import RoomUploadUSerializer, RoomUpdateUSerializer, RoomMediaFileUpdateSerializer, RoomSerializer
 from django.views.generic.edit import UpdateView
 # from .forms import roomForm
 from django.contrib import messages
@@ -20,27 +21,30 @@ def index(request):
     base_url = "{0}://{1}".format(request.scheme, request.get_host(), request.path)
     print(base_url)
     state = State.objects.all()
-    if request.method == 'POST' :
+    if request.method == 'POST':
 
         state_id = request.POST.get("state")
         state = State.objects.get(id=state_id)
         dist_id = request.POST.get("district")
         dist = District.objects.get(id=dist_id)
         city_id = request.POST.get("city")
-        city = City.objects.get(id = city_id)
+        city = City.objects.get(id=city_id)
         location_id = request.POST.get("location")
         location = Locations.objects.get(id=location_id)
         AllowedFor = request.POST.get("selectFor")
         House_type = request.POST.get("House_type")
 
-        SearchedObject = room.objects.filter(Q(state__icontains=state.name) and  Q(AllowedFor__icontains=AllowedFor)and Q(House_type__icontains=House_type)and Q(district__icontains= dist.name) and Q(city__icontains= city.name)and Q(location__icontains= location.name))
-        search = SearchedObject.filter(Active = True,Premium = True)
+        SearchedObject = room.objects.filter(
+            Q(state__icontains=state.name) and Q(AllowedFor__icontains=AllowedFor) and Q(
+                House_type__icontains=House_type) and Q(district__icontains=dist.name) and Q(
+                city__icontains=city.name) and Q(location__icontains=location.name))
+        search = SearchedObject.filter(Active=True, Premium=True)
         recomend = room.objects.filter(city=city.name)
-        recomend = recomend.filter(Active = True,Premium = True)
+        recomend = recomend.filter(Active=True, Premium=True)
         if SearchedObject is None:
             messages.info(request, 'No Result Found As of Now')
             return redirect('/')
-        return render(request,'SearchResult.html',{'SearchResult':search,'Reco':recomend})
+        return render(request, 'SearchResult.html', {'SearchResult': search, 'Reco': recomend})
     state = State.objects.all()
 
     Restaurents = Reg_Mess_Restaurent.objects.all()
@@ -51,73 +55,78 @@ def index(request):
     END_POINT = "/rent/GetRoomData"
     respo = requests.get(base_url + END_POINT)
 
-    return render(request,'index11.html',{'RoomDetail':respo.json()['results'],'state':state,'gallery':gallery,'Resto':Restaurents})
+    return render(request, 'index11.html',
+                  {'RoomDetail': respo.json()['results'], 'state': state, 'gallery': gallery, 'Resto': Restaurents})
 
 
 # Create your views here.
 
 def loginpage(request):
-
     Render_to = str(request.GET['next'])
     print(Render_to)
 
+    return render(request, 'loginPage.html', {'Render_to': Render_to})
 
-    return render(request,'loginPage.html',{'Render_to':Render_to})
 
 def About(request):
-    return render(request,'about.html')
+    return render(request, 'about.html')
+
 
 def ContactUs(request):
-    return render(request,'contact.html')
+    return render(request, 'contact.html')
 
 
 def Districts(request):
     state_id = request.GET.get('state')
     # print("selected state is ",state_id)
-    dist = District.objects.filter(state_id = state_id).order_by('name')
-    return render(request,'load_country.html',{'dists':dist})
+    dist = District.objects.filter(state_id=state_id).order_by('name')
+    return render(request, 'load_country.html', {'dists': dist})
+
 
 def city(request):
     dist_id = request.GET.get('dist')
     # print("selected district is yahi hai ",dist_id)
-    dist = City.objects.filter(dist_id = dist_id).order_by('name')
-    return render(request,'load_country.html',{'dists':dist})
+    dist = City.objects.filter(dist_id=dist_id).order_by('name')
+    return render(request, 'load_country.html', {'dists': dist})
 
 
 def locations(request):
     city_id = request.GET.get('city')
     # print("selected city is yahi hai ",city_id)
-    dist = Locations.objects.filter(city_id = city_id).order_by('name')
-    return render(request,'load_country.html',{'dists':dist})
+    dist = Locations.objects.filter(city_id=city_id).order_by('name')
+    return render(request, 'load_country.html', {'dists': dist})
 
 
 @login_required(login_url='/rent/loginPage')
 def UploadHouseDetail(request):
-    if request.user.profile.Premium:
-
+    if request.user.profile.is_premium_active:
+        print(request.user.profile)
+        print(request.user.profile.is_premium_active)
         state = State.objects.all()
-        context = {'state':state}
+        context = {'state': state}
         return render(request, 'FormUpload.html', context)
 
     else:
         return redirect('/')
 
-@login_required(login_url='/rent/loginPage')
-def HouseDetail(request,pk):
-    Room = room.objects.filter(id = pk)
-    return render(request,'property-single.html',{'Detail':Room})
 
+@login_required(login_url='/rent/loginPage')
+def HouseDetail(request, pk):
+    Room = room.objects.filter(id=pk)
+    return render(request, 'property-single.html', {'Detail': Room})
 
 
 def Allmess(request):
     state = State.objects.all()
-    return render(request,'All_mess.html',{'state':state})
+    return render(request, 'All_mess.html', {'state': state})
+
 
 @login_required(login_url='/rent/loginPage')
-def Single_view_mess(request,pk):
+def Single_view_mess(request, pk):
     MessDetail = Reg_Mess_Restaurent.objects.filter(id=pk)
 
-    return render(request,'mess_single.html',{'Details':MessDetail})
+    return render(request, 'mess_single.html', {'Details': MessDetail})
+
 
 # @login_required(redirect_field_name='RegisterMess',login_url='/rent/loginPage')
 @login_required(login_url='/rent/loginPage')
@@ -146,19 +155,21 @@ def RegisterMess(request):
         Messlink = request.POST.get('Messlink')
         Messmap = request.POST.get('Messmap')
 
-
         Messmap1 = Messmap[13:271]
 
         # print(Housemap1)
         # print("length of map code hai tera",len(Housemap1))
 
-        Temp_Reg_Mess_Restaurent.objects.create(user=user, Mess_Owner_name=Ownername,Mess_name=Messname, Mess_address=MessAdress,
-                                 Landmark=landmark, Mess_Location_link=Messlink,  Mess_Location_map_Code=Messmap1,
-                                  Mess_description=MessDescription,
-                                 state=statee.name, city=city.name,
-                                 district=dist.name, location=location.name, pin_no=pincode, phone_no=phone,
-                                 Mess_img=Mess_image
-                                 ).save()
+        Temp_Reg_Mess_Restaurent.objects.create(user=user, Mess_Owner_name=Ownername, Mess_name=Messname,
+                                                Mess_address=MessAdress,
+                                                Landmark=landmark, Mess_Location_link=Messlink,
+                                                Mess_Location_map_Code=Messmap1,
+                                                Mess_description=MessDescription,
+                                                state=statee.name, city=city.name,
+                                                district=dist.name, location=location.name, pin_no=pincode,
+                                                phone_no=phone,
+                                                Mess_img=Mess_image
+                                                ).save()
         return redirect('/')
 
     context = {'state': state}
@@ -167,15 +178,13 @@ def RegisterMess(request):
 
 @login_required()
 def AllProperty(request):
-    Room = room.objects.all().filter(Premium=True,Active = True)
+    Room = room.objects.all().filter(Premium=True, Active=True)
 
-    return render(request,'property-grid.html',{'rooms':Room})
+    return render(request, 'property-grid.html', {'rooms': Room})
+
 
 def PropertyDetail(request):
-
-    return render(request,'property-single.html')
-
-
+    return render(request, 'property-single.html')
 
 
 @login_required(login_url='/rent/loginPage')
@@ -183,73 +192,75 @@ def ValidationPage(request):
     if request.user.is_admin:
         val = Temporary.objects.all().order_by("-id")
         messval = Temp_Reg_Mess_Restaurent.objects.all().order_by("-id")
-        return render(request,'Validate.html',{'Forvalidate':val,'ForvalidateMess':messval})
+        return render(request, 'Validate.html', {'Forvalidate': val, 'ForvalidateMess': messval})
     else:
         return HttpResponse('<h1>Access - Denied </h1>')
 
+
 @login_required(login_url='/rent/loginPage')
-def Validate(request,pk):
+def Validate(request, pk):
     if request.user.is_admin:
 
-        getvalue = Temporary.objects.filter(id = pk)
+        getvalue = Temporary.objects.filter(id=pk)
         for i in getvalue:
-            room.objects.create(user=i.user, Owner_Name=i.Owner_Name, House_address=i.House_address, Landmark=i.Landmark,
-                                     House_Location_link=i.House_Location_link,House_Location_map=i.House_Location_map,
-                                     House_type=i.House_type, House_description=i.House_description, AllowedFor=i.AllowedFor,
-                                     state=i.state, city=i.city,location=i.location,Owner_pic=i.Owner_pic,
-                                     district=i.district, pin_no=i.pin_no, phone_no=i.phone_no, Building_img1=i.Building_img1,
-                                     Room_img1=i.Room_img1,
-                                     Room_img2=i.Room_img2, Room_img3=i.Room_img3, House_video=i.House_video,
-                                     Alt_phone_no=i.Alt_phone_no, Price=i.Price,Premium = i.Premium,Active = True).save()
+            room.objects.create(user=i.user, Owner_Name=i.Owner_Name, House_address=i.House_address,
+                                Landmark=i.Landmark,
+                                House_Location_link=i.House_Location_link, House_Location_map=i.House_Location_map,
+                                House_type=i.House_type, House_description=i.House_description, AllowedFor=i.AllowedFor,
+                                state=i.state, city=i.city, location=i.location, Owner_pic=i.Owner_pic,
+                                district=i.district, pin_no=i.pin_no, phone_no=i.phone_no,
+                                Building_img1=i.Building_img1,
+                                Room_img1=i.Room_img1,
+                                Room_img2=i.Room_img2, Room_img3=i.Room_img3, House_video=i.House_video,
+                                Alt_phone_no=i.Alt_phone_no, Price=i.Price, Premium=i.Premium, Active=True).save()
 
         Temporary.objects.filter(id=pk).delete()
     return HttpResponse("<h1>Validated </h1>")
 
+
 @login_required(login_url='/rent/loginPage')
-def ValidateMess(request,pk):
+def ValidateMess(request, pk):
     if request.user.is_admin:
 
-        getvalue = Temp_Reg_Mess_Restaurent.objects.filter(id = pk)
+        getvalue = Temp_Reg_Mess_Restaurent.objects.filter(id=pk)
 
         for i in getvalue:
-
-
-            Reg_Mess_Restaurent.objects.create(user=i.user, Mess_Owner_name=i.Mess_Owner_name, Mess_name=i.Mess_name, Mess_address=i.Mess_address,
-                   Landmark=i.Landmark, Mess_Location_link=i.Mess_Location_link, Mess_Location_map_Code=i.Mess_Location_map_Code,
-                   Mess_description=i.Mess_description,
-                   state=i.state, city=i.city,
-                   district=i.district, location=i.location, pin_no=i.pin_no, phone_no=i.phone_no,
-                   Mess_img=i.Mess_img
-                   ).save()
+            Reg_Mess_Restaurent.objects.create(user=i.user, Mess_Owner_name=i.Mess_Owner_name, Mess_name=i.Mess_name,
+                                               Mess_address=i.Mess_address,
+                                               Landmark=i.Landmark, Mess_Location_link=i.Mess_Location_link,
+                                               Mess_Location_map_Code=i.Mess_Location_map_Code,
+                                               Mess_description=i.Mess_description,
+                                               state=i.state, city=i.city,
+                                               district=i.district, location=i.location, pin_no=i.pin_no,
+                                               phone_no=i.phone_no,
+                                               Mess_img=i.Mess_img
+                                               ).save()
 
         Temp_Reg_Mess_Restaurent.objects.filter(id=pk).delete()
     return HttpResponse("<h1>Validated </h1>")
 
 
 @login_required(login_url='/rent/loginPage')
-def deletePostValidation(request,pk):
+def deletePostValidation(request, pk):
     Temporary.objects.filter(id=pk).delete()
     return HttpResponse("<h> Deleted the Post </h1>")
 
 
 @login_required(login_url='/rent/loginPage')
-def deleteMessPostValidation(request,pk):
+def deleteMessPostValidation(request, pk):
     Temp_Reg_Mess_Restaurent.objects.filter(id=pk).delete()
     return HttpResponse("<h> Deleted the Post </h1>")
 
 
-
 @login_required()
-def DeletePost(request,pk):
-    room.objects.filter(id = pk).delete()
-    return render(request,'index11.html')
-
+def DeletePost(request, pk):
+    room.objects.filter(id=pk).delete()
+    return render(request, 'index11.html')
 
 
 @login_required()
 def AddPremium(request):
-
-    return render(request,'index11.html')
+    return render(request, 'index11.html')
 
 
 #
@@ -265,52 +276,47 @@ def AddPremium(request):
 
 
 @login_required(login_url='/rent/loginPage')
-def UpdateRooms(request,pk):
+def UpdateRooms(request, pk):
     # state = State.objects.all()
 
-    data = room.objects.filter(id = pk)
-    obj = room.objects.get(id = pk)
+    data = room.objects.filter(id=pk)
+    obj = room.objects.get(id=pk)
 
     if request.user.id == obj.user.id:
-       return render(request,'UpdatePostRooms.html',{'data': data})
-    return HttpResponse("404 BAD REQUEST You Are Not Authorized to Update this Post Invalid Auth Token" )
+        return render(request, 'UpdatePostRooms.html', {'data': data})
+    return HttpResponse("404 BAD REQUEST You Are Not Authorized to Update this Post Invalid Auth Token")
 
 
 # API FOR UPLOADING ROOMS
 
-from rest_framework.views import APIView,Response
-from rest_framework.parsers import MultiPartParser,FormParser
+from rest_framework.views import APIView, Response
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import UpdateModelMixin
-from rest_framework import viewsets,generics
+from rest_framework import viewsets, generics
 
 
-
-
-
-@method_decorator(login_required , name = 'dispatch')
+@method_decorator(login_required, name='dispatch')
 class RoomMediaFileUpdate(viewsets.ViewSet):
     parser_classes = [MultiPartParser, FormParser]
-
-
 
     def partial_update(self, request, pk=None):
 
         print(" Media file update k liye API CAll hua hai ")
         instance = room.objects.get(id=request.data.get('id'))
 
-        Data =request.data
-        print(Data,"Before pop operation")
+        Data = request.data
+        print(Data, "Before pop operation")
         for key in list(Data):
-            if Data[key]  == 'undefined':
-                print(Data[key],"loop k ander se")
+            if Data[key] == 'undefined':
+                print(Data[key], "loop k ander se")
                 print(Data.pop(key))
-        print(Data,"ye delete hone k baad aaya")
+        print(Data, "ye delete hone k baad aaya")
 
         serializer = RoomMediaFileUpdateSerializer(instance=instance, data=Data)
         if serializer.is_valid():
             serializer.save()
-            print(serializer.validated_data,"save hone k bad")
+            print(serializer.validated_data, "save hone k bad")
             return Response({
 
                 'status': True,
@@ -325,21 +331,19 @@ class RoomMediaFileUpdate(viewsets.ViewSet):
             })
 
 
-
-
-@method_decorator(login_required , name = 'dispatch')
+@method_decorator(login_required, name='dispatch')
 class UploadRoomsViewSet(viewsets.ViewSet):
 
     def list(self, request):
-        queryset = room.objects.all(Premium = True,Active = True)
+        queryset = room.objects.all(Premium=True, Active=True)
         serializer = RoomSerializer(queryset, many=True)
         return Response(serializer.data)
 
     def create(self, request):
-        pro = Profile.objects.get(id = int(request.data['user']))
+        pro = Profile.objects.get(id=int(request.data['user']))
         if pro.Premium:
             print("yes Premium")
-            request.data['Premium'] =True
+            request.data['Premium'] = True
 
         print("Room post upload k kliye rwana ho gya hai ")
         Housemap = request.data['House_Location_map']
@@ -349,12 +353,11 @@ class UploadRoomsViewSet(viewsets.ViewSet):
         request.data['location'] = Locations.objects.get(id=int(request.data['location'])).name
         request.data['district'] = District.objects.get(id=int(request.data['district'])).name
 
-        serializer = RoomUploadUSerializer(data = request.data)
+        serializer = RoomUploadUSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             send_mail("Validate This Post  to upload ", "http://127.0.0.1:8000/rent/validationpage/",
-                       'sachinkumar72353@gmail.com', ['sachinkumar72353@gmail.com'])
-
+                      'sachinkumar72353@gmail.com', ['sachinkumar72353@gmail.com'])
 
             print("Room add ho gya data base me ")
             return Response({
@@ -388,7 +391,7 @@ class UploadRoomsViewSet(viewsets.ViewSet):
         else:
             return Response({
                 'status': False,
-                "msg": "something went wrong"+str(serializer.error_messages),
+                "msg": "something went wrong" + str(serializer.error_messages),
 
             })
 
@@ -417,7 +420,7 @@ class PostActivation(APIView):
 
 
 class PostDeactivation(APIView):
-    def post(self,request):
+    def post(self, request):
         data = request.body
         data = json.loads(data)
 
@@ -426,20 +429,14 @@ class PostDeactivation(APIView):
             obj.Active = False
             obj.save()
             return Response({
-                'status':True,
+                'status': True,
                 'msg': 'Successfully Deactivated'
             })
         else:
             return Response({
-                "status":False,
+                "status": False,
                 "msg": 'Your are not Authorized to update this'
             })
-
-
-
-
-
-
 
 
 class RoomDataViewSet(generics.ListAPIView):
@@ -466,14 +463,6 @@ from rest_framework.filters import SearchFilter
 #         filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
 
 
-
-
-
-
-
-
-
-
 # class UploadRooms(APIView):
 #
 #     """
@@ -492,11 +481,11 @@ from rest_framework.filters import SearchFilter
 #
 #         Housemap = request.data['House_Location_map']
 #
-        # request.data['House_Location_map'] = Housemap[13:271]
-        # request.data['state'] = State.objects.get(id=int(request.data['state'])).name
-        # request.data['city'] = City.objects.get(id=int(request.data['city'])).name
-        # request.data['location'] = Locations.objects.get(id=int(request.data['location'])).name
-        # request.data['district'] = District.objects.get(id=int(request.data['district'])).name
+# request.data['House_Location_map'] = Housemap[13:271]
+# request.data['state'] = State.objects.get(id=int(request.data['state'])).name
+# request.data['city'] = City.objects.get(id=int(request.data['city'])).name
+# request.data['location'] = Locations.objects.get(id=int(request.data['location'])).name
+# request.data['district'] = District.objects.get(id=int(request.data['district'])).name
 
 #         serializer = RoomUploadUSerializer(data=request.data)
 #         if serializer.is_valid(raise_exception=True):
@@ -563,8 +552,6 @@ from rest_framework.filters import SearchFilter
 #                 "msg": "something went wrong",
 #                 "status": False
 #             })
-
-
 
 
 # class JsonCBV(HttpResponseMixin,View):

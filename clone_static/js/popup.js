@@ -157,7 +157,7 @@ regform.addEventListener('submit', function(e){
     console.log('Clicked on register ...')
 
      newpass = regform.password.value
-     cnfPass = regform.comfirm_password.value
+     cnfPass = regform.confirm_password.value
 
      if (newpass == cnfPass ){
 

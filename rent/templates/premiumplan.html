@@ -119,23 +119,31 @@
 			<div class="contact agileits">
 				<div class="contact-agileinfo">
 					<div class="contact-form wthree">
-						<form id="premiumPlan"> {% csrf_token %}
-                            <div class="premium">
-                                <h4 class="text-center"> Choose One Plan </h4>
-                                {% for plan in plans %}
-                                <div class="">
-                                    <input type="radio" id="plan" name="plan" value='{{plan.id}}'>
-                                    <label for="plan">{{plan.Amount}} Rs Validity : {{plan.Validity}}</label><br>
-                                </div>
-                                {% endfor %}
-
-                            </div>
+						<form id="premiumPlan">
+							{% csrf_token %}
+							<table class="premium">
+								<tr>
+									<th>Choose One Plan</th>
+									<th>Validity</th>
+									<th>Amount (Rs)</th>
+								</tr>
+								{% for plan in plans %}
+								<tr>
+									<td>
+										<input type="radio" id="plan" name="plan" value="{{ plan.id }}">
+										<label for="plan">{{ plan.name }}</label>
+									</td>
+									<td>{{ plan.duration }}</td>
+									<td>{{ plan.Amount }}</td>
+								</tr>
+								{% endfor %}
+							</table>
 							<input type="submit" id="prem" value="ADD Premium">
 						</form>
 					</div>
-
 				</div>
 			</div>
+
 			<!-- //contact -->
 		</div>
 	</div>

@@ -261,8 +261,8 @@
                                     <input type="password" name="password" id="password" class="input-text" required>
                                 </div>
                                 <div class="form-row form-row-1">
-                                    <label for="comfirm_password">Comfirm Password</label>
-                                    <input type="password" name="comfirm_password" id="comfirm_password" class="input-text" required>
+                                    <label for="confirm_password">Comfirm Password</label>
+                                    <input type="password" name="confirm_password" id="confirm_password" class="input-text" required>
                                 </div>
                             </div>
                             <div class="form-checkbox">
@@ -349,6 +349,11 @@
                                      <label for="phone_no">Phone no *</label>
                                      <input type="tel" class="input-text" id="phone_no" name="phone" pattern="[0-9]{10}" placeholder="phone number" required="">
                                 </div>
+                                <div class="form-row form-row-1 ">
+                                     <label for="email_address">Your Email</label>
+                                     <input type="text" name="email_address" id="email_address" class="input-text" required pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}">
+                                </div>
+
                             </div>
                             <div class="form-row-last">
                                 <input type="submit" name="Login" class="register" value="Generate OTP">
@@ -617,14 +622,15 @@
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
 
 <script type="text/javascript">
-  function CheckPremium(){
-
-       var Prem = '{{user.profile.Premium}}';
+  function CheckPremium(e){
+       var Prem = '{{user.profile.is_premium_active}}';
        if(Prem == 'True'){
          console.log(Prem)
          window.location.href = "/rent/UploadHouseDetail/"
        }
        else{
+        console.log("Not a premium account is active")
+        console.log(Prem)
         alert("Not A Premium Account")
 
        }

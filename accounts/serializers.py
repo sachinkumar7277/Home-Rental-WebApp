@@ -105,18 +105,18 @@ class PremiumPlanSerializer(serializers.ModelSerializer):
         model = PremiumPlan
         fields = '__all__'
 
-class AddPremiumSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Profile
-        fields = ['Premium','Premium_plan','premium_Validity','PremiumDaysLeft']
-    def update(self, instance, validated_data):
-
-        print(validated_data,"ye validated data hai avatar se ")
-
-        instance.Premium = validated_data.get('Premium', instance.Premium)
-        instance.Premium_plan = validated_data.get('Premium_plan', instance.Premium_plan)
-        instance.premium_Validity = validated_data.get('premium_Validity', instance.premium_Validity)
-        instance.PremiumDaysLeft = validated_data.get('PremiumDaysLeft', instance.PremiumDaysLeft)
-        instance.save()
-        print(instance)
-        return instance
+# class AddPremiumSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Profile
+#         fields = ['Premium','Premium_plan','premium_Validity','PremiumDaysLeft']
+#     def update(self, instance, validated_data):
+#
+#         print(validated_data,"ye validated data hai avatar se ")
+#
+#         instance.Premium = validated_data.get('Premium', instance.Premium)
+#         instance.Premium_plan = validated_data.get('Premium_plan', instance.Premium_plan)
+#         instance.premium_Validity = validated_data.get('premium_Validity', instance.premium_Validity)
+#         instance.PremiumDaysLeft = validated_data.get('PremiumDaysLeft', instance.PremiumDaysLeft)
+#         instance.save()
+#         print(instance)
+#         return instance
