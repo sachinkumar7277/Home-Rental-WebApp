@@ -1,319 +1,385 @@
 {% extends 'base2.html' %}
 
-
 {% block content %}
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+<style>
+  .container {
+    margin-top: 50px;
+  }
+
+  .form-group label {
+    font-weight: bold;
+  }
+
+  .form-group small {
+    font-size: 0.8em;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+
+  .btn-primary:hover {
+    background-color: #0069d9;
+    border-color: #0062cc;
+  }
+
+  .btn-primary:focus, .btn-primary.focus {
+    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+  }
+
+  .form-text.text-muted {
+    color: #6c757d;
+  }
+</style>
+
 <br><br><br><br>
 
-<div class="container" style = "margin-top:50px">
-    <h2 class="text-center">Add Your Room / Flat  Details For Giving on Rent</h2>
+<div class="container">
+  <h2 class="text-center">Add Your Room / Flat Details For Giving on Rent</h2>
 
-    <br><br>
-    <form method="post" id="indexForm" data-courses-url="/rent/load-dists"  enctype="multipart/form-data">
-         {% csrf_token %}
+  <br><br>
+  <form method="post" id="indexForm" data-courses-url="/rent/load-dists" enctype="multipart/form-data">
+    {% csrf_token %}
 
-        <div class="form-row">
-            <div class="form-group col-md-4">
-              <label for="Ownername">Building Name *</label>
-              <input type="text" name = "Ownername" class="form-control" id="Ownername" placeholder="Enter Building name"  required="">
-            </div>
-            <div class="form-group col-md-4">
-              <label for="phone">Phone no *</label>
-              <input type="tel" class="form-control" id="phone" name="phone" pattern="[0-9]{10}" placeholder="Makan Malik phone no. ex. +918340312640" required="">
-            </div>
-            <div class="form-group col-md-4">
-              <label for="Altphone">Altrnate Phone no</label>
-              <input type="tel" class="form-control" id="Altphone" name="Altphone" pattern="[0-9]{10,10}" placeholder="Enter Alternate phone no. ex. +918340312640" required="">
-            </div>
-        </div>
-          <div class="form-group">
-            <label for="flatAddress">Flat/Room Address *</label>
-            <input type="text" class="form-control" id="flatAddress" name="FlatAdress" placeholder="Enter Flat/Room Address" required="">
-            <small class="form-text text-muted">Please Provide address of that Flat or Room which you want to give on Rent </small>
-          </div>
-          <div class="form-group">
-            <label for="Landmark">Landmark *</label>
-            <input type="text" class="form-control" id="Landmark" name="landmark" placeholder="Landmark"  required="">
-          </div>
-        <div class="form-row">
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="Ownername">Building Name *</label>
+        <input type="text" name="Ownername" class="form-control" id="Ownername" placeholder="Enter Building name" required="">
+      </div>
+      <div class="form-group col-md-4">
+        <label for="phone">Phone no *</label>
+        <input type="tel" class="form-control" id="phone" name="phone" pattern="[0-9]{10}" placeholder="Makan Malik phone no. ex. +918340312640" required="">
+      </div>
+      <div class="form-group col-md-4">
+        <label for="Altphone">Alternate Phone no</label>
+        <input type="tel" class="form-control" id="Altphone" name="Altphone" pattern="[0-9]{10,10}" placeholder="Enter Alternate phone no. ex. +918340312640" required="">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="flatAddress">Flat/Room Address *</label>
+      <input type="text" class="form-control" id="flatAddress" name="FlatAdress" placeholder="Enter Flat/Room Address" required="">
+      <small class="form-text text-muted">Please Provide address of that Flat or Room which you want to give on Rent</small>
+    </div>
+
+    <div class="form-group">
+      <label for="Landmark">Landmark *</label>
+      <input type="text" class="form-control" id="Landmark" name="landmark" placeholder="Landmark" required="">
+    </div>
 
 
-           <div class="form-group col-md-3">
-              <label for="state_ka_id">State</label>
-              <select  name="programming" id="state_ka_id" class="form-control">
-                <option>..Choose...</option>
-                {% for i in state %}
-                <option  value="{{i.id}}">{{i.name}}</option>
-                {% endfor %}
-              </select>
-           </div>
 
-            <div class="form-group col-md-3">
-              <label for="district">District *</label>
-              <select name="courses" id="district"  data-courses1-url="/rent/load-city" class="form-control">
-                <option>--District--</option>
+    <div class="form-row">
+      <div class="form-group col-md-3">
+        <label for="state_ka_id">State</label>
+        <select name="programming" id="state_ka_id" class="form-control">
+          <option>..Choose...</option>
+          {% for i in state %}
+          <option value="{{i.id}}">{{i.name}}</option>
+          {% endfor %}
+        </select>
+      </div>
 
-              </select>
-            </div>
-            <div class="form-group col-md-3">
-              <label for="city">City *</label>
-              <select name="city" id="city" class="form-control" required="required"  data-courses2-url="/rent/load-location">
-                  <option>--City--</option>
+      <div class="form-group col-md-3">
+        <label for="district">District *</label>
+        <select name="courses" id="district" data-courses1-url="/rent/load-city" class="form-control">
+          <option>--District--</option>
+        </select>
+      </div>
 
-              </select>
-            </div>
-            <div class="form-group col-md-3">
-              <label for="city">Village / Town *</label>
-              <select name="location" id="location" class="form-control" required="required">
-                  <option>--Location--</option>
+      <div class="form-group col-md-3">
+        <label for="city">City *</label>
+        <select name="city" id="city" class="form-control" required="required" data-courses2-url="/rent/load-location">
+          <option>--City--</option>
+        </select>
+      </div>
 
-              </select>
-            </div>
+      <div class="form-group col-md-3">
+        <label for="city">Village / Town *</label>
+        <select name="location" id="location" class="form-control" required="required">
+          <option>--Location--</option>
+        </select>
+      </div>
 
-            <div class="form-group col-md-3">
-              <label for="pincode">Pincode *</label>
-              <input type="text" name="pincode" class="form-control" id="pincode"  required="">
-            </div>
-        </div>
+      <div class="form-group col-md-3">
+        <label for="pincode">Pincode *</label>
+        <input type="text" name="pincode" class="form-control" id="pincode" required="">
+      </div>
+    </div>
 
-        <div class="form-row">
-           <div class="form-group col-md-3">
-               <label for="Building_image">Building images *</label><br>
-               <input type="file" id="Building_image" name="Building_image" class="form-control" accept=".jpg, .jpeg, .png"  required="" multiple>
-               <small class="form-text text-muted">Choose images to upload (PNG, JPG )</small>
-           </div>
+    <div class="form-row">
+      <div class="form-group col-md-3">
+        <label for="Building_image">Building images *</label><br>
+        <input type="file" id="Building_image" name="Building_image" class="form-control" accept=".jpg, .jpeg, .png" required="" multiple>
+        <small class="form-text text-muted">Choose images to upload (PNG, JPG)</small>
+      </div>
 
-            <div class="form-group col-md-3">
-               <label for="Roomimage">Room / Bedroom image *</label><br>
-               <input type="file" id="Roomimage" class="form-control" name="Roomimage" accept=".jpg, .jpeg, .png"  required="" multiple>
+      <div class="form-group col-md-3">
+        <label for="Roomimage">Room / Bedroom image *</label><br>
+        <input type="file" id="Roomimage" class="form-control" name="Roomimage" accept=".jpg, .jpeg, .png" required="" multiple>
+      </div>
 
-           </div>
+      <div class="form-group col-md-3">
+        <label for="Kitchenimage">Kitchen image</label><br>
+        <input type="file" id="Kitchenimage" name="Kitchenimage" class="form-control" accept=".jpg, .jpeg, .png" multiple>
+      </div>
 
-          <div class="form-group col-md-3">
-               <label for="Kitchenimage">Kitchen image</label><br>
-               <input type="file" id="Kitchenimage" name="Kitchenimage" class="form-control" accept=".jpg, .jpeg, .png" multiple>
+      <div class="form-group col-md-3">
+        <label for="Bathroomimage">Bathroom image *</label><br>
+        <input type="file" id="Bathroomimage" name="Bathroomimage" class="form-control" accept=".jpg, .jpeg, .png" required="" multiple>
+      </div>
+    </div>
 
-           </div>
+    <div class="form-group">
+      <label for="Description">Flat/Room Facility Description *</label>
+      <textarea class="form-control" id="Description" rows="3" name="HouseDescription" placeholder="Tell about Facilities like 24X7 Water supply etc."></textarea>
+    </div>
 
-          <div class="form-group col-md-3">
-               <label for="Bathroomimage">Bathroom image *</label><br>
-               <input type="file" id="Bathroomimage" name="Bathroomimage" class="form-control" accept=".jpg, .jpeg, .png"  required="" multiple>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="AllowedFor">Allowed For *</label>
+        <select name="AllowedFor" id="AllowedFor" class="form-control" required="required">
+          <option>--Allowed For--</option>
+          <option>All</option>
+          <option>Couple</option>
+          <option>Bachelor(Male)</option>
+          <option>Bachelor(Female)</option>
+          <option>With Family</option>
+        </select>
+      </div>
 
-           </div>
-        </div>
+      <div class="form-group col-md-6">
+        <label for="House_type">Flat / Room Type *</label>
+        <select name="House_type" id="House_type" class="form-control" required="required">
+          <option>--House Type--</option>
+          <option>2BHK</option>
+          <option>3BHK</option>
+          <option>SINGLE</option>
+          <option>BED WISE</option>
+        </select>
+      </div>
+    </div>
+    <br>
+    <div class="form-check col-md-6">
+        <input class="form-check-input" type="checkbox" id="getLocationCheckbox">
+        <label class="form-check-label" for="getLocationCheckbox">* Use Current Location Latitude and Longitude</label>
+    </div>
+    <br>
+    <div class="form-group">
+      <label for="Houselink" id="houselinkLabel">Add Google Map Location *</label>
+      <input type="text" class="form-control" id="Houselink" name="Houselink" aria-describedby="emailHelp" placeholder="Enter Google Map embed code of Location">
+      <small id="houselinkHelp" class="form-text text-muted">Please Provide Pinpoint Location embed code of Flat/ Room you want to give on rent</small>
+    </div>
 
-        <div class="form-group">
-            <label for="Description">Flat/Room Facility Description *</label>
-            <textarea class="form-control" id="Description" rows="3"  name="HouseDescription" placeholder="Tell about Facilities like 24X7 Water supply etc."></textarea>
-        </div>
-         <div class="form-row">
+    <div class="form-group">
+      <label for="Housemap" id="housemapLabel">Add Google Map embed code of Location *</label>
+      <input type="text" class="form-control" id="Housemap" name="Housemap" aria-describedby="emailHelp" placeholder="Enter Google Map embed code of Location">
+      <small id="housemapHelp" class="form-text text-muted">Please Provide Pinpoint Location embed code of Flat/ Room you want to give on rent</small>
+    </div>
 
-            <div class="form-group col-md-6">
-              <label for="AllowedFor">Allowed For *</label>
-                <select name = "AllowedFor" id="AllowedFor" class="form-control" required="required">
-                      <option>--Allowed For--</option>
-                      <option>All</option>
-                      <option>Couple</option>
-                      <option>Bachelor(Male)</option>
-                      <option>Bachelor(Female)</option>
-                      <option>With Family </option>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="Video_uploads">Add Short Video Clip Of Flat/Room *</label><br>
+        <input type="file" id="Video_uploads" name="Video_uploads" class="form-control" accept=".mp4,.avi,.mpeg" required="" multiple>
+        <small id="emailHelp" class="form-text text-muted">Choose Short Videos Of Flat/Room to upload (.MP4,.MPEG,.AVI)</small>
+      </div>
 
-                </select>
-            </div>
-            <div class="form-group col-md-6">
-              <label for="House_type">Flat / Room Type *</label>
-                <select name = "House_type" id="House_type" class="form-control" required="required">
-                  <option>--House Type--</option>
-                  <option>2BHK</option>
-                  <option>3BHK</option>
-                  <option>SINGLE</option>
-                  <option>BED WISE</option>
-                </select>
-            </div>
-        </div>
+      <div class="form-group col-md-6">
+        <label for="Price">Add Rent Price *</label><br>
+        <input type="number" id="Price" name="Price" class="form-control" placeholder="Price Per Month in Rs" required="">
+      </div>
 
-        <div class="form-group">
-            <label for="Houselink">Add Google Map Location Link of Room/ Flat *</label>
-            <input type="url" class="form-control" id="Houselink" name="Houselink" aria-describedby="emailHelp" placeholder="Enter Google Map Location Link of Room/ Flat">
-            <small id="emailHelp" class="form-text text-muted">Please Provide Pinpoint Location Link of Flat/ Room you want to give on rent  </small>
-        </div>
-        <div class="form-group">
-            <label for="Housemap">Add Google Map embed code of Location *</label>
-            <input type="text" class="form-control" id="Housemap" name="Housemap" aria-describedby="emailHelp" placeholder="Enter Google Map embed code of Location">
-            <small id="emailHelp" class="form-text text-muted">Please Provide Pinpoint Location embed code of Flat/ Room you want to give on rent  </small>
-        </div>
-        <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="ownerimage">Owner Pic</label><br>
+        <input type="file" id="ownerimage" name="ownerimage" class="form-control" accept=".jpg, .jpeg, .png" multiple>
+      </div>
 
-           <div class="form-group col-md-6">
-               <label for="Video_uploads">Add Short Video Clip Of Flat/Room *</label><br>
-               <input type="file" id="Video_uploads" name="Video_uploads" class="form-control" accept=".mp4,.avi,.mpeg"  required="" multiple>
-               <small id="emailHelp" class="form-text text-muted">Choose Short Videos Of Flat/Room to upload (.MP4,.MPEG,.AVI)</small>
-           </div>
-
-            <div class="form-group col-md-6">
-               <label for="Price">Add Rent Price *</label><br>
-               <input type="number" id="Price" name="Price" class="form-control" placeholder="Price Per Month in Rs" required="" >
-           </div>
-           <div class="form-group col-md-6">
-              <label for="ownerimage">Owner Pic</label><br>
-               <input type="file" id="ownerimage" name="ownerimage" class="form-control" accept=".jpg, .jpeg, .png" multiple>
-           </div>
-        </div>
-        <br>
-        <input type = "submit" value="Submit"  class="form-control btn btn-primary">
-    </form>
+    </div>
+    <br>
+    <input type="submit" value="Submit" class="form-control btn btn-primary">
+  </form>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-  <script>
-    $("#state_ka_id").change(function () {
-      var url = $("#indexForm").attr("data-courses-url");  // get the url of the `load_courses` view
-      var state_id = $(this).val();  // get the selected programming ID from the HTML input
+<script>
+  $("#state_ka_id").change(function() {
+    var url = $("#indexForm").attr("data-courses-url");
+    var state_id = $(this).val();
 
-
-      $.ajax({                       // initialize an AJAX request
-        url: url,                    // set the url of the request (= localhost:8000/load-courses/)
-        data: {
-          'state': state_id       // add the programming id to the GET parameters
-        },
-        success: function (data) {   // `data` is the return of the `load_courses` view function
-          $("#district").html(data);  // replace the contents of the course input with the data that came from the server
-        }
-      });
-
-    });
-    $("#district").change(function () {
-    var url = $("#district").attr("data-courses1-url");  // get the url of the `load_courses` view
-    var stateId = $(this).val();  // get the selected programming ID from the HTML input
-
-    $.ajax({                       // initialize an AJAX request
-      url: url,                    // set the url of the request (= localhost:8000/load-courses/)
+    $.ajax({
+      url: url,
       data: {
-        'dist': stateId       // add the programming id to the GET parameters
+        'state': state_id
       },
-      success: function (data) {   // `data` is the return of the `load_courses` view function
-<!--          document.write("success entered into district ")-->
-        $("#city").html(data);  // replace the contents of the course input with the data that came from the server
+      success: function(data) {
+        $("#district").html(data);
       }
     });
+  });
 
-    });
+  $("#district").change(function() {
+    var url = $(this).attr("data-courses1-url");
+    var stateId = $(this).val();
 
-    $("#city").change(function () {
-    var url = $("#city").attr("data-courses2-url");  // get the url of the `load_courses` view
-    var distId = $(this).val();  // get the selected programming ID from the HTML input
-
-    $.ajax({                       // initialize an AJAX request
-      url: url,                    // set the url of the request (= localhost:8000/load-courses/)
+    $.ajax({
+      url: url,
       data: {
-        'city': distId       // add the programming id to the GET parameters
+        'dist': stateId
       },
-      success: function (data) {   // `data` is the return of the `load_courses` view function
-<!--          document.write("success entered into district ")-->
-        $("#location").html(data);  // replace the contents of the course input with the data that came from the server
+      success: function(data) {
+        $("#city").html(data);
       }
     });
+  });
 
+  $("#city").change(function() {
+    var url = $(this).attr("data-courses2-url");
+    var distId = $(this).val();
+
+    $.ajax({
+      url: url,
+      data: {
+        'city': distId
+      },
+      success: function(data) {
+        $("#location").html(data);
+      }
     });
-
-
-
-  </script>
-
-<script type="text/javascript">
-    <!--- API FOR PRODUCT UPLOAD WHERE IMAGE IS NECESSARY OR REQUIRED ---------------->
-
-
-    // Product  Update  API call
-
-    var uploadRoomform = document.getElementById('indexForm')
-
-    uploadRoomform.addEventListener('submit', function(e){
-        e.preventDefault()
-        console.log('Clicked on submit form data  in upload rooms or flat ...')
-        uploadRoom()
-    //    document.getElementById('form-button').classList.add("hidden");
-
-    })
-
-
-    function uploadRoom(){
-        console.log("upload room wala function chal chuka hai")
-        let Building_image = document.getElementById('Building_image');
-        let Roomimage = document.getElementById('Roomimage');
-        let Kitchenimage = document.getElementById('Kitchenimage');
-        let Bathroomimage = document.getElementById('Bathroomimage');
-        let ownerimage = document.getElementById('ownerimage');
-        let House_video = document.getElementById('Video_uploads');
-
-        let DAta = new FormData();
-
-        DAta.append('Building_img1', Building_image.files[0]);
-        DAta.append('Room_img1', Roomimage.files[0]);
-        DAta.append('Room_img2', Kitchenimage.files[0]);
-        DAta.append('Room_img3', Bathroomimage.files[0]);
-        DAta.append('Owner_pic', ownerimage.files[0]);
-        DAta.append('House_video', House_video.files[0]);
-
-        DAta.append('user', {{user.profile.id}});
-        DAta.append('Owner_Name', uploadRoomform.Ownername.value);
-        DAta.append('phone_no', uploadRoomform.phone.value);
-        DAta.append('Alt_phone_no', uploadRoomform.Altphone.value);
-        DAta.append('House_address', uploadRoomform.flatAddress.value);
-        DAta.append('Landmark', uploadRoomform.Landmark.value);
-        DAta.append('state', uploadRoomform.state_ka_id.value);
-        DAta.append('district', uploadRoomform.district.value);
-        DAta.append('city', uploadRoomform.city.value);
-        DAta.append('location', uploadRoomform.location.value);
-        DAta.append('pin_no', uploadRoomform.pincode.value);
-        DAta.append('House_description', uploadRoomform.Description.value);
-        DAta.append('AllowedFor', uploadRoomform.AllowedFor.value);
-        DAta.append('House_type', uploadRoomform.House_type.value);
-        DAta.append('House_Location_map', uploadRoomform.Housemap.value);
-        DAta.append('Price', uploadRoomform.Price.value);
-        DAta.append('House_Location_link', uploadRoomform.Houselink.value);
-
-
-        console.log(DAta,"ye data hai upload room form ka ")
-
-        var auth_token = localStorage.getItem('Auth_Token')
-
-
-        fetch('http://'+url_link+'/rent/UploadRoom', {
-            method: 'POST',
-            headers: {
-                 'X-CSRFToken':csrftoken,
-                 'Authorization': 'Token '+ auth_token
-            },
-            body: DAta
-        }).then(response => {
-            return response.json();
-        }).then((data) => {
-        if (data.status){
-           console.log(data)
-
-
-           alert("Your Post will be verified within 24 hour and then it will be appear on this site")
-           window.location.href = "/rent/home"
-
-        }
-        else{
-          alert("Failed to upload your post  try again")
-           window.location.href = "/rent/home"
-        }
-
-
-
-    })
-    }
-
-
-
-
-<!---------- END OF PRODUCT API ---------------------------------------------->
-
+  });
 </script>
 
+<script type="text/javascript">
+  // API FOR PRODUCT UPLOAD WHERE IMAGE IS NECESSARY OR REQUIRED
 
-{% endblock%}
+  // Product Update API call
+  var uploadRoomform = document.getElementById('indexForm');
 
+  uploadRoomform.addEventListener('submit', function(e) {
+    e.preventDefault();
+    console.log('Clicked on submit form data in upload rooms or flat ...');
+    uploadRoom();
+    // document.getElementById('form-button').classList.add("hidden");
+  });
+
+  function uploadRoom() {
+    console.log("upload room wala function chal chuka hai");
+    let Building_image = document.getElementById('Building_image');
+    let Roomimage = document.getElementById('Roomimage');
+    let Kitchenimage = document.getElementById('Kitchenimage');
+    let Bathroomimage = document.getElementById('Bathroomimage');
+    let ownerimage = document.getElementById('ownerimage');
+    let House_video = document.getElementById('Video_uploads');
+
+    let DAta = new FormData();
+
+    DAta.append('Building_img1', Building_image.files[0]);
+    DAta.append('Room_img1', Roomimage.files[0]);
+    DAta.append('Room_img2', Kitchenimage.files[0]);
+    DAta.append('Room_img3', Bathroomimage.files[0]);
+    DAta.append('Owner_pic', ownerimage.files[0]);
+    DAta.append('House_video', House_video.files[0]);
+
+    DAta.append('user', {{user.profile.id}});
+    DAta.append('Owner_Name', uploadRoomform.Ownername.value);
+    DAta.append('phone_no', uploadRoomform.phone.value);
+    DAta.append('Alt_phone_no', uploadRoomform.Altphone.value);
+    DAta.append('House_address', uploadRoomform.flatAddress.value);
+    DAta.append('Landmark', uploadRoomform.Landmark.value);
+    DAta.append('state', uploadRoomform.state_ka_id.value);
+    DAta.append('district', uploadRoomform.district.value);
+    DAta.append('city', uploadRoomform.city.value);
+    DAta.append('location', uploadRoomform.location.value);
+    DAta.append('pin_no', uploadRoomform.pincode.value);
+    DAta.append('House_description', uploadRoomform.Description.value);
+    DAta.append('AllowedFor', uploadRoomform.AllowedFor.value);
+    DAta.append('House_type', uploadRoomform.House_type.value);
+    DAta.append('House_Location_map', uploadRoomform.Housemap.value);
+    DAta.append('Price', uploadRoomform.Price.value);
+    DAta.append('House_Location_link', uploadRoomform.Houselink.value);
+
+    console.log(DAta, "ye data hai upload room form ka ");
+
+    var auth_token = localStorage.getItem('Auth_Token');
+
+    fetch('http://' + url_link + '/rent/UploadRoom', {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': csrftoken,
+        'Authorization': 'Token ' + auth_token
+      },
+      body: DAta
+    }).then(response => {
+      return response.json();
+    }).then((data) => {
+      if (data.status) {
+        console.log(data);
+        alert("Your Post will be verified within 24 hour and then it will appear on this site");
+        window.location.href = "/rent/home";
+      } else {
+        alert("Failed to upload your post, try again");
+        window.location.href = "/rent/home";
+      }
+    });
+  }
+</script>
+<!----          button based fetching current location ---------------
+<script type="text/javascript">
+  // GOOGLE MAP API
+  document.getElementById('getLocationBtn').addEventListener('click', function() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+        console.log(latitude, longitude);
+        var googleMapsLink = "https://maps.google.com/maps?q=" + latitude + "," + longitude;
+        var embedCode = "<iframe src=\"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3637.428282883549!2d" + longitude + "!3d" + latitude + "!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMjTCsDE1JzQyLjQiTiA4NsKwMzknMDMuNyJF!5e0!3m2!1sen!2sin!4v1689312436516!5m2!1sen!2sin\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>";
+        console.log(embedCode);
+        document.getElementById('Houselink').value = googleMapsLink;
+        document.getElementById('Housemap').value = embedCode;
+      });
+    } else {
+      alert('Geolocation is not supported by your browser.');
+    }
+  });
+</script>
+------------------------------------>
+
+<script>
+  document.getElementById('getLocationCheckbox').addEventListener('change', function() {
+    if (this.checked) {
+      document.getElementById('Houselink').style.display = 'none';
+      document.getElementById('Housemap').style.display = 'none';
+      document.getElementById('housemapLabel').style.display = 'none';
+      document.getElementById('houselinkLabel').style.display = 'none';
+      document.getElementById('housemapHelp').style.display = 'none';
+      document.getElementById('houselinkHelp').style.display = 'none';
+
+      getLocation();
+    } else {
+      document.getElementById('Houselink').style.display = 'block';
+      document.getElementById('Housemap').style.display = 'block';
+    }
+  });
+
+  function getLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+        console.log(latitude, longitude);
+        var googleMapsLink = "https://maps.google.com/maps?q=" + latitude + "," + longitude;
+        var embedCode = "<iframe src=\"https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3637.428282883549!2d" + longitude + "!3d" + latitude + "!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMjTCsDE1JzQyLjQiTiA4NsKwMzknMDMuNyJF!5e0!3m2!1sen!2sin!4v1689312436516!5m2!1sen!2sin\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>";
+        console.log(embedCode);
+        document.getElementById('Houselink').value = googleMapsLink;
+        document.getElementById('Housemap').value = embedCode;
+      });
+    } else {
+      alert('Geolocation is not supported by your browser.');
+    }
+  }
+</script>
+
+{% endblock %}

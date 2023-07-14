@@ -514,3 +514,61 @@ function AddPremium(){
 
     })
 }
+
+// for auto populating the google map location link and embedded code
+
+function initAutocomplete() {
+        var input = document.getElementById('autocomplete');
+        var autocomplete = new google.maps.places.Autocomplete(input);
+
+        autocomplete.addListener('place_changed', function() {
+            var place = autocomplete.getPlace();
+            if (place.geometry) {
+                document.getElementById('Houselink').value = place.url;
+                document.getElementById('Housemap').value = getEmbedCode(place.geometry.location.lat(), place.geometry.location.lng());
+            }
+        });
+    }
+
+    function getEmbedCode(lat, lng) {
+        return '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d0!2d' + lng + '!3d' + lat + '!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1625874666301!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>';
+    }
+
+
+
+<!------- Using openStreetMap API to get the lat, lng of the pinpoint location -------->
+
+    function setLatLong(lat, lng) {
+        // Set the latitude and longitude values in the hidden input fields
+        document.getElementById('lat').value = lat;
+        document.getElementById('lng').value = lng;
+        document.getElementById('Houselink').value = ;
+        document.getElementById('Housemap').value = getEmbedCode(lat, lng);
+
+        // Display latitude and longitude in the console
+        console.log('Latitude:', lat);
+        console.log('Longitude:', lng);
+
+        // Update the iframe source URL with the new latitude and longitude values
+        var iframe = document.getElementById('mapIframe');
+        var src = 'https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d0!2d' + lng + '!3d' + lat + '!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1625874666301!5m2!1sen!2sus';
+        iframe.src = src;
+    }
+    function getEmbedCode(lat, lng) {
+        return '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d0!2d' + lng + '!3d' + lat + '!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1625874666301!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>';
+    }
+    function pickLocation() {
+        // Retrieve the latitude and longitude values
+        var lat = parseFloat(document.getElementById('lat').value);
+        var lng = parseFloat(document.getElementById('lng').value);
+
+        // Call the setLatLong function with the latitude and longitude values
+        setLatLong(lat, lng);
+    }
+
+    // Add a click event listener to the "Pick Location" button
+    var pickLocationButton = document.getElementById('pickLocationButton');
+    pickLocationButton.addEventListener('click', function() {
+        pickLocation();
+    });
+

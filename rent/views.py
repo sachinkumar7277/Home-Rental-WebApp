@@ -1,20 +1,21 @@
+from decouple import config
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import room, State, District, Locations, Temporary, City, Gallerys, Reg_Mess_Restaurent, \
     Temp_Reg_Mess_Restaurent
 import json
 import requests
-from accounts.models import Profile, User, PremiumPlan
+from accounts.models import Profile
 from django.core.mail import send_mail
-from django.views.generic import View
-from .mixins import HttpResponseMixin
 from .serializers import RoomUploadUSerializer, RoomUpdateUSerializer, RoomMediaFileUpdateSerializer, RoomSerializer
-from django.views.generic.edit import UpdateView
 # from .forms import roomForm
 from django.contrib import messages
 from django.db.models import Q
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+from .regexutils import extract_value_from_source
+
+
 
 
 def index(request):
@@ -291,8 +292,6 @@ def UpdateRooms(request, pk):
 
 from rest_framework.views import APIView, Response
 from rest_framework.parsers import MultiPartParser, FormParser
-from rest_framework.generics import GenericAPIView
-from rest_framework.mixins import UpdateModelMixin
 from rest_framework import viewsets, generics
 
 
@@ -341,13 +340,13 @@ class UploadRoomsViewSet(viewsets.ViewSet):
 
     def create(self, request):
         pro = Profile.objects.get(id=int(request.data['user']))
-        if pro.Premium:
+        if pro.is_premium_active:
             print("yes Premium")
             request.data['Premium'] = True
 
         print("Room post upload k kliye rwana ho gya hai ")
         Housemap = request.data['House_Location_map']
-        request.data['House_Location_map'] = Housemap[13:271]
+        request.data['House_Location_map'] = extract_value_from_source(Housemap, "src")
         request.data['state'] = State.objects.get(id=int(request.data['state'])).name
         request.data['city'] = City.objects.get(id=int(request.data['city'])).name
         request.data['location'] = Locations.objects.get(id=int(request.data['location'])).name
@@ -357,7 +356,7 @@ class UploadRoomsViewSet(viewsets.ViewSet):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             send_mail("Validate This Post  to upload ", "http://127.0.0.1:8000/rent/validationpage/",
-                      'sachinkumar72353@gmail.com', ['sachinkumar72353@gmail.com'])
+                      config("YOUR_EMAIL_ID"), [config("YOUR_EMAIL_ID")])
 
             print("Room add ho gya data base me ")
             return Response({
@@ -450,157 +449,5 @@ class RoomDataViewSet(generics.ListAPIView):
     #     return Response(list(serializer.data))
 
 
-# ------------------------------------------------------- For Search API Using Django Rest Framework  --------------------------------------------
-from rest_framework.generics import ListAPIView
-from .serializers import RoomSearchSerializer
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.filters import SearchFilter
-
-# class searchRoomAPI(ListAPIView):
-#     def get(self, request, *args, **kwargs):
-#         queryset = room.objects.all()
-#         serializer_class =  RoomSearchSerializer
-#         filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
 
 
-# class UploadRooms(APIView):
-#
-#     """
-#      API for uploading posts of Rooms or Flats
-#
-#     """
-#     # def post(self,request,*args,**kwargs):
-#     #     print("UploadRooms call hua hai ")
-#     #     data = json.loads(request.body)
-#     #     print(data ,"upload room or flat form se aaya hai ")
-#
-#     parser_classes = [MultiPartParser, FormParser]
-#
-#     def post(self, request, format=None):
-#         print("Mai UploadRoom se aaya hu API call hua hai ")
-#
-#         Housemap = request.data['House_Location_map']
-#
-# request.data['House_Location_map'] = Housemap[13:271]
-# request.data['state'] = State.objects.get(id=int(request.data['state'])).name
-# request.data['city'] = City.objects.get(id=int(request.data['city'])).name
-# request.data['location'] = Locations.objects.get(id=int(request.data['location'])).name
-# request.data['district'] = District.objects.get(id=int(request.data['district'])).name
-
-#         serializer = RoomUploadUSerializer(data=request.data)
-#         if serializer.is_valid(raise_exception=True):
-#             serializer.save()
-#             send_mail("Validate This user to upload ", "http://127.0.0.1:8000/rent/validationpage/",
-#                       'sachinkumar72353@gmail.com', ['sachinkumar72353@gmail.com'])
-#
-#             return Response({
-#
-#                 'status': True,
-#                 "msg": "Post added successfully !"
-#
-#             })
-#         else:
-#             return Response({
-#                 'status': False,
-#                 "msg": "something went wrong",
-#
-#             })
-#
-#
-#     def patch(self, request, format=None):
-#         print("Mai UploadRoom se aaya hu API call hua hai ")
-#         queryset = room.objects.get(id = request.data['id'])
-#
-#         serializer = RoomUpdateUSerializer(queryset,data=request.data)
-#         if serializer.is_valid(raise_exception=True):
-#             serializer.save()
-#             return Response({
-#
-#                 'status': True,
-#                 "msg": "Data successfully updated"
-#
-#             })
-#         else:
-#             return Response({
-#                 'status': False,
-#                 "msg": "something went wrong",
-#
-#             })
-#
-
-
-# API FOR ROOM POST UPDATE AND CREATE
-#
-#
-# class RoomMediaFileUpdate(APIView):
-#     parser_classes = [MultiPartParser, FormParser]
-#
-#     def patch(self, request, format=None):
-#         print(" Media file update k liye API CAll hua hai ")
-#         instance = room.objects.get(id = request.data.get('id'))
-#         serializer = RoomMediaFileUpdateSerializer( instance=instance,data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response({
-#
-#                 'status': True,
-#                 "msg": "Media File Updated  successfully "
-#
-#             })
-#         else:
-#             return Response({
-#                 "msg": "something went wrong",
-#                 "status": False
-#             })
-
-
-# class JsonCBV(HttpResponseMixin,View):
-#
-#     def get(self,request,id,*args,**kwargs):
-#         dataval = room.objects.get(id=id)
-#         print("selected id data is here ", dataval)
-#         data = {'Owner_name': dataval.Owner_Name,
-#                 # 'Building_img': dataval.Building_img1,
-#                 # 'Room_img1': dataval.Room_img1,
-#                 'House_type': dataval.House_type,
-#                 'House_address': dataval.House_address,
-#                 'Price': dataval.Price}
-#         json_data = json.dumps(data)
-#         print("Laqad chata gya madharchod", data)
-#         return self.render_to_Http_response(json_data)
-#     def post(self,request,id,*args,**kwargs):
-#         dataval = room.objects.get(id=id)
-#         print("selected id data is here ", dataval)
-#         data = {'Owner_name': dataval.Owner_Name,
-#                 'Building_img': dataval.Building_img1,
-#                 'Room_img1': dataval.Room_img1,
-#                 'House_type': dataval.House_type,
-#                 'House_address': dataval.House_address,
-#                 'Price': dataval.Price}
-#         json_data = json.dumps(data)
-#         print("Laqad chata gya madharchod", data)
-#         return self.render_to_Http_response(json_data)
-#     def put(self,request,id,*args,**kwargs):
-#         dataval = room.objects.get(id=id)
-#         print("selected id data is here ",dataval)
-#         data = {'Owner_name': dataval.Owner_Name,
-#                 'Building_img': dataval.Building_img1,
-#                 'Room_img1': dataval.Room_img1,
-#                 'House_type': dataval.House_type,
-#                 'House_address': dataval.House_address,
-#                 'Price': dataval.Price}
-#         json_data = json.dumps(data)
-#         print("Laqad chata gya madharchod",data)
-#         return self.render_to_Http_response(json_data)
-#     def delete(self,request,id,*args,**kwargs):
-#         dataval = room.objects.get(id=id)
-#         print("selected id data is here ", dataval)
-#         data = {'Owner_name': dataval.Owner_Name,
-#                 # 'Building_img': dataval.Building_img1,
-#                 # 'Room_img1': dataval.Room_img1,
-#                 'House_type': dataval.House_type,
-#                 'House_address': dataval.House_address,
-#                 'Price': dataval.Price}
-#         json_data = json.dumps(data)
-#         print("Ld ta", data)
-#         return self.render_to_Http_response(json_data)
