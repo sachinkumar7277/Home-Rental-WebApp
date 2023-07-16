@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from accounts.models import User, OTP, Profile, PremiumPlan, SubscribedPremiumPlan
+from accounts.models import User, OTP, Profile, PremiumPlan, SubscribedPremiumPlan, ServiceProvider, ServiceType
 from django.contrib.admin.options import ModelAdmin
 from accounts.forms import UserCreationForm, UserChangeForm
 
@@ -69,3 +69,17 @@ class SubscribedPremiumPlanAdmin(ModelAdmin):
 
 
 admin.site.register(SubscribedPremiumPlan, SubscribedPremiumPlanAdmin)
+
+
+class ServiceProviderAdmin(ModelAdmin):
+    list_display = ['id', 'profile', 'service_type']
+
+
+admin.site.register(ServiceProvider, ServiceProviderAdmin)
+
+
+class ServiceTypeAdmin(ModelAdmin):
+    list_display = ['id', 'name']
+
+
+admin.site.register(ServiceType, ServiceTypeAdmin)

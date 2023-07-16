@@ -54,7 +54,6 @@ function verifyPhone(){
 
 
         verifyPhoneData.phone = phoneVerifyform.phone.value
-        verifyPhoneData.email_address = phoneVerifyform.email_address.value
 
 
 
@@ -376,16 +375,12 @@ function ChngPass(){
             'Content-Type':'applicaiton/json',
             'X-CSRFToken':csrftoken,
             'Authorization': 'Token '+ auth_token
-
-
         },
         body:JSON.stringify(ChngPassformData),
 
     })
     .then((response) => response.json())
     .then((data) =>checkstatus(data))
-
-
 
      function checkstatus(data){
         console.log(data.status)
@@ -399,7 +394,6 @@ function ChngPass(){
         }
 
      }
-
 
 }
 
@@ -424,9 +418,8 @@ function resetPass(){
 
     }
 
-
-        resetPassData.email = resetpassform.reset_email.value
-        console.log(resetPassData.email)
+    resetPassData.email = resetpassform.reset_email.value
+    console.log(resetPassData.email)
 
     var url = "http://"+url_link+"/api/goToResetPass"
     fetch(url, {
@@ -447,17 +440,10 @@ function resetPass(){
 
         }
         else{
-          console.log(data)
 
           alert("Failed to send email to reset password try again")
            window.location.href = "/rent/home"
         }
 
-
-
     })
 }
-
-
-//
-

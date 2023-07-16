@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.db.models.deletion import CASCADE, PROTECT
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.core.validators import RegexValidator
+from django.utils.text import slugify
 
 
 # Create your models here.
@@ -139,7 +140,24 @@ class Profile(models.Model):
         return url
 
 
+class ServiceType(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    service_type_for_url = models.CharField(max_length=100, unique=True, null=True, blank=True)
+    description = models.TextField()
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        # Generate the service type for URL by slugifying the name
+        self.service_type_for_url = slugify(self.name)
+
+        super().save(*args, **kwargs)
+
+
+
 class PremiumPlan(models.Model):
+    service_type = models.ForeignKey(ServiceType, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     Amount = models.IntegerField(null=False)
     duration = models.PositiveIntegerField(default=30)
@@ -157,6 +175,15 @@ class SubscribedPremiumPlan(models.Model):
 
     def __str__(self):
         return self.premium_plan.name
+
+
+class ServiceProvider(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    service_type = models.ForeignKey(ServiceType, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.service_type.name
+
 
 # demo to upload image  using Put request
 

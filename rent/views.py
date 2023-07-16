@@ -5,7 +5,7 @@ from .models import room, State, District, Locations, Temporary, City, Gallerys,
     Temp_Reg_Mess_Restaurent
 import json
 import requests
-from accounts.models import Profile
+from accounts.models import Profile, SubscribedPremiumPlan, ServiceType, ServiceProvider
 from django.core.mail import send_mail
 from .serializers import RoomUploadUSerializer, RoomUpdateUSerializer, RoomMediaFileUpdateSerializer, RoomSerializer
 # from .forms import roomForm
@@ -14,8 +14,6 @@ from django.db.models import Q
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from .regexutils import extract_value_from_source
-
-
 
 
 def index(request):
@@ -73,6 +71,18 @@ def About(request):
     return render(request, 'about.html')
 
 
+def services(request):
+    service_list = ServiceType.objects.all()
+    return render(request, 'serviceListing.html', {'service_list': service_list})
+
+@login_required(login_url='/rent/loginPage')
+def service_providers(request, service_type):
+    service_providers_list = ServiceProvider.objects.filter(service_type__service_type_for_url=service_type)
+    return render(request, 'serviceProvidersList.html',
+                  {'service_providers': service_providers_list,'service_type':service_type}
+                  )
+
+
 def ContactUs(request):
     return render(request, 'contact.html')
 
@@ -100,9 +110,13 @@ def locations(request):
 
 @login_required(login_url='/rent/loginPage')
 def UploadHouseDetail(request):
-    if request.user.profile.is_premium_active:
-        print(request.user.profile)
-        print(request.user.profile.is_premium_active)
+    profile = request.user.profile
+    is_rental_service_subscribed = SubscribedPremiumPlan.objects.filter(
+        profile=profile,
+        premium_plan__service_type__name="Rental"
+    ).exists()
+
+    if is_rental_service_subscribed and profile.is_premium_active:
         state = State.objects.all()
         context = {'state': state}
         return render(request, 'FormUpload.html', context)
@@ -447,7 +461,3 @@ class RoomDataViewSet(generics.ListAPIView):
     #     serializer = RoomSerializer(queryset, many=True)
     #     print("ye tpe hai serializer data ka ",list(serializer.data))
     #     return Response(list(serializer.data))
-
-
-
-
