@@ -1,38 +1,25 @@
 {% extends 'base2.html' %}
+{% load static %}
+{% static "images" as baseURL %}
 
 {% block content %}
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<style type="text/css">
+  .profile-head {
+    transform: translateY(5rem)
+}
 
-<style>
-  .container {
-    margin-top: 50px;
-  }
+.cover {
+    background-image: url(https://images.unsplash.com/photo-1530305408560-82d13781b33a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1352&q=80);
+    background-size: cover;
+    background-repeat: no-repeat
+}
 
-  .form-group label {
-    font-weight: bold;
-  }
-
-  .form-group small {
-    font-size: 0.8em;
-  }
-
-  .btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
-  }
-
-  .btn-primary:hover {
-    background-color: #0069d9;
-    border-color: #0062cc;
-  }
-
-  .btn-primary:focus, .btn-primary.focus {
-    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
-  }
-
-  .form-text.text-muted {
-    color: #6c757d;
-  }
+body {
+    background: #654ea3;
+    background: linear-gradient(to right, #e96443, #904e95);
+    min-height: 100vh;
+    overflow-x: hidden
+}
 </style>
 
 <br><br><br><br>
@@ -169,8 +156,8 @@
     </div>
     <br>
     <div class="form-group">
-      <label for="Houselink" id="houselinkLabel">Add Google Map Location *</label>
-      <input type="text" class="form-control" id="Houselink" name="Houselink" aria-describedby="emailHelp" placeholder="Enter Google Map embed code of Location">
+      <label for="Houselink" id="houselinkLabel">Add Google Map Location link *</label>
+      <input type="text" class="form-control" id="Houselink" name="Houselink" aria-describedby="emailHelp" placeholder="Enter Google Map Location link">
       <small id="houselinkHelp" class="form-text text-muted">Please Provide Pinpoint Location embed code of Flat/ Room you want to give on rent</small>
     </div>
 

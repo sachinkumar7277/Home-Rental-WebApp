@@ -10,6 +10,10 @@ urlpatterns = [
 
     path('about/', views.About),
 
+    path('service-providers/<str:service_type>/', views.service_providers),
+
+    path('services/', views.services),
+
     path('contact/', views.ContactUs),
 
     path('Single_view_mess/<int:pk>', views.Single_view_mess),
